@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
 project(planetarium)
 
+# force C++17
+set(CMAKE_CXX_STANDARD 17)
+set(CXX_STANDARD_REQUIRED TRUE)
+
 # Dependencies
 find_package(raylib 4.0.0 QUIET) # QUIET or REQUIRED
 if (NOT raylib_FOUND) # If there's none, fetch and build raylib
