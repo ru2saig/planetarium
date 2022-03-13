@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
+# good enough for now, improve later
+cmake_minimum_required(VERSION 3.14)
 project(planetarium)
 
 # force C++17
@@ -23,10 +24,16 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 endif()
 
 # Our Project
+# obtain all the source files
+file(GLOB SOURCES "src/*.cpp")
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES})
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
+# set the include path to be included in the build command
+
+# TODO: see this! https://stackoverflow.com/a/54285898, or something like https://github.com/raysan5/raylib/blob/master/examples/CMakeLists.txt
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/include) 
 
 # Web Configurations
 if (${PLATFORM} STREQUAL "Web")
