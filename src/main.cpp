@@ -3,14 +3,10 @@
 int main(void)
 {
   // Initialization
-  // TODO: possible to do this automatically? fullscreen and stuff? resize?
-  const int screenWidth = 800;
-  const int screenHeight = 450;
-    
-  InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-
-  SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-
+  SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
+  InitWindow(GetScreenWidth(), GetScreenHeight(), "Planetarium");
+  
+  SetTargetFPS(60);               // target 60 fps
  
   Image image = LoadImage("res/planetarium.png");  // Load image data into CPU memory (RAM)
   Texture2D texture = LoadTextureFromImage(image);       // Image converted to texture, GPU memory (RAM -> VRAM)
@@ -35,7 +31,7 @@ int main(void)
       BeginDrawing();
 
       ClearBackground(RAYWHITE);
-      DrawTexture(texture, screenWidth/2 - texture.width/2, screenHeight/2 - texture.height/2, WHITE);
+      DrawTexture(texture, GetScreenWidth()/2 - texture.width/2, GetScreenHeight()/2 - texture.height/2, WHITE);
 
      
 
