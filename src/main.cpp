@@ -1,4 +1,7 @@
 #include <raylib.h>
+#include <Vector3.hpp>
+
+
 
 int main(void)
 {
@@ -17,7 +20,12 @@ int main(void)
 
   //texture = LoadTextureFromImage(image);                 // Recreate texture from retrieved image data (RAM -> VRAM)
   // UnloadImage(image);                    
-    
+
+
+  VMath::Vector3 v1{ 10.0, 10.0, 10.0 };
+  VMath::Vector3 v2{ 10.0, 10.0, 10.0 };
+  VMath::Vector3 v3 = v1 + v2;
+  
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
     {
