@@ -1,6 +1,5 @@
 #include <raylib.h>
-#include <Vector3.hpp>
-
+#include <PVector3.hpp>
 
 
 int main(void)
@@ -8,49 +7,49 @@ int main(void)
   // Initialization
   SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
   InitWindow(GetScreenWidth(), GetScreenHeight(), "Planetarium");
-  
+
+  Camera camera = { 0 };
+  camera.position = (Vector3){ 100.0f, 100.0f, 100.0f }; // Camera position
+  camera.target = (Vector3){ 0.0f, 10.0f, 0.0f };     // Camera looking at point
+  camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+  camera.fovy = 45.0f;                                // Camera field-of-view Y
+  camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
+
+  // load models
+  Model earth_model = LoadModel("res/earth/earth.obj"); //LoadModelFromMesh(GenMeshSphere(32, 64, 64)); //LoadModel("res/earth/earth.obj");
+  Texture2D earth_texture = LoadTexture("res/earth/earth_albedo.png");
+  earth_model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = earth_texture;
+  VMath::PVector3 earth_pos {0.0, 0.0, 0.0};
+
+
+  SetCameraMode(camera, CAMERA_FREE);
   SetTargetFPS(60);               // target 60 fps
- 
-  Image image = LoadImage("res/planetarium.png");  // Load image data into CPU memory (RAM)
-  Texture2D texture = LoadTextureFromImage(image);       // Image converted to texture, GPU memory (RAM -> VRAM)
-  UnloadImage(image);                                    // Unload image data from CPU memory (RAM)
 
-  //image = LoadImageFromTexture(texture);                 // Load image from GPU texture (VRAM -> RAM)
-  //UnloadTexture(texture);                                // Unload texture from GPU memory (VRAM)
-
-  //texture = LoadTextureFromImage(image);                 // Recreate texture from retrieved image data (RAM -> VRAM)
-  // UnloadImage(image);                    
-
-
-  VMath::Vector3 v1{ 10.0, 10.0, 10.0 };
-  VMath::Vector3 v2{ 10.0, 10.0, 10.0 };
-  VMath::Vector3 v3 = v1 + v2;
-  
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
     {
       // Update
-      //----------------------------------------------------------------------------------
-      // TODO: Update your variables here
-      //----------------------------------------------------------------------------------
+      UpdateCamera(&camera);
 
+      
       // Draw
-      //----------------------------------------------------------------------------------
       BeginDrawing();
+      BeginMode3D(camera);
 
-      ClearBackground(RAYWHITE);
-      DrawTexture(texture, GetScreenWidth()/2 - texture.width/2, GetScreenHeight()/2 - texture.height/2, WHITE);
-
-     
-
+      ClearBackground(BLACK);
+      DrawModel(earth_model, earth_pos.vec3, 1.0f, WHITE);
+      
+      
+      EndMode3D();
       EndDrawing();
-      //----------------------------------------------------------------------------------
+  
     }
 
   // De-Initialization
-  //--------------------------------------------------------------------------------------
+  UnloadTexture(earth_texture);
+  UnloadModel(earth_model);
   CloseWindow();        // Close window and OpenGL context
-  //--------------------------------------------------------------------------------------
+
 
   return 0;
 }
