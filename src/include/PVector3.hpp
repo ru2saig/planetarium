@@ -15,6 +15,7 @@ namespace VMath{
     PVector3 operator+(PVector3&);
     PVector3 operator-(PVector3&);
     double  operator*(PVector3&);
+    PVector3 operator*(double);
 
     friend PVector3 cross(PVector3&, PVector3&);
     PVector3 normalize();

@@ -47,6 +47,10 @@ double PVector3::operator*(PVector3 &b)
   return (this->vec3.x*b.vec3.x + this->vec3.y*b.vec3.y + this->vec3.z*b.vec3.z);
 }
 
+PVector3 PVector3::operator*(double scale) {
+  return PVector3{this->vec3.x*scale, this->vec3.y*scale, this->vec3.z*scale };
+}
+
 PVector3 cross(PVector3 &a, PVector3 &b) {
 
   double x = a.vec3.y*b.vec3.z + a.vec3.z*b.vec3.y;
