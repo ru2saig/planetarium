@@ -1,77 +1,48 @@
 #include <PVector3.hpp>
+#include <raylib.h>
 #include <cmath>
 
-using namespace VMath;
 
-PVector3::PVector3()
+Vector3 VMath::operator+(Vector3 a, Vector3 b)
 {
-  vec3.x = 0;
-  vec3.y = 0;
-  vec3.z = 0;
+  return Vector3{ a.x+b.x, a.y+b.y, a.z+b.z};
 }
 
-PVector3::PVector3(double a)
+Vector3 VMath::operator-(Vector3 a, Vector3 b)
 {
-  vec3.x = a;
-  vec3.y = a;
-  vec3.z = a;
+  return Vector3{ a.x-b.x, a.y-b.y, a.z-b.z};
 }
 
-PVector3::PVector3(double x, double y, double z)
+float  VMath::operator*(Vector3 a, Vector3 b)
 {
-  vec3.x = x;
-  vec3.y = y;
-  vec3.z = z;
+  return a.x*b.x + a.y*b.y + a.z*b.z;
 }
 
-PVector3 PVector3::operator+(PVector3 &b)
+Vector3 VMath::operator*(float a, Vector3 b)
 {
-  double x = this->vec3.x + b.vec3.x;
-  double y = this->vec3.y + b.vec3.y;
-  double z = this->vec3.z + b.vec3.z;
-
-  return PVector3{x, y, z};
+  return Vector3 { a*b.x, a*b.y, a*b.z};
 }
 
-PVector3 PVector3::operator-(PVector3 &b)
+Vector3 VMath::operator*(Vector3 b, float a)
 {
-  double x = this->vec3.x - b.vec3.x;
-  double y = this->vec3.y - b.vec3.y;
-  double z = this->vec3.z - b.vec3.z;
-
-  return PVector3{x, y, z};
+  return Vector3 { a*b.x, a*b.y, a*b.z};
 }
 
-double PVector3::operator*(PVector3 &b)
+Vector3 VMath::cross(Vector3 a, Vector3 b)
 {
-  return (this->vec3.x*b.vec3.x + this->vec3.y*b.vec3.y + this->vec3.z*b.vec3.z);
+  return Vector3{ a.y*b.z + a.z*b.y , a.z*b.x + a.x*b.z , a.x*b.y + a.y*b.x};
 }
 
-PVector3 PVector3::operator*(double scale) {
-  return PVector3{this->vec3.x*scale, this->vec3.y*scale, this->vec3.z*scale };
-}
-
-PVector3 cross(PVector3 &a, PVector3 &b) {
-
-  double x = a.vec3.y*b.vec3.z + a.vec3.z*b.vec3.y;
-  double y = a.vec3.z*b.vec3.x + a.vec3.x*b.vec3.z;
-  double z = a.vec3.x*b.vec3.y + a.vec3.y*b.vec3.x;
-
-  return PVector3{x, y, z};
-}
-
-double PVector3::mag()
+float VMath::mag(Vector3 a)
 {
-  return sqrt(this->vec3.x*this->vec3.x + this->vec3.y*this->vec3.y + this->vec3.z*this->vec3.z);
+  return sqrt(a.x*a.x + a.y*a.y + a.z*a.z);
 }
-
-PVector3 PVector3::normalize()
+Vector3 VMath::normalize(Vector3 a)
 {
-  double m = mag();
-  double x = this->vec3.x/m;
-  double y = this->vec3.y/m;
-  double z = this->vec3.z/m;
+  float m = mag(a);
+  float x = x/m;
+  float y = y/m;
+  float z = z/m;
 
-  return PVector3{x, y, z};
+  return Vector3{x, y, z};
 }
-

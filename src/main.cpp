@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <PVector3.hpp>
 
+using namespace VMath;
 
 int main(void)
 {
@@ -19,7 +20,7 @@ int main(void)
   Model earth_model = LoadModel("res/earth/earth.obj"); //LoadModelFromMesh(GenMeshSphere(32, 64, 64)); //LoadModel("res/earth/earth.obj");
   Texture2D earth_texture = LoadTexture("res/earth/earth_albedo.png");
   earth_model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = earth_texture;
-  VMath::PVector3 earth_pos {0.0, 0.0, 0.0};
+  Vector3 earth_pos {0.0, 0.0, 0.0};
 
 
   SetCameraMode(camera, CAMERA_FREE);
@@ -30,14 +31,14 @@ int main(void)
     {
       // Update
       UpdateCamera(&camera);
-
+      earth_pos = earth_pos + earth_pos;
       
       // Draw
       BeginDrawing();
       BeginMode3D(camera);
-
+      
       ClearBackground(BLACK);
-      DrawModel(earth_model, earth_pos.vec3, 1.0f, WHITE);
+      DrawModel(earth_model, earth_pos, 1.0f, WHITE);
       
       
       EndMode3D();
