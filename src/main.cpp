@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <PVector3.hpp>
+#include <Planet.hpp>
 
 using namespace VMath;
 
@@ -16,12 +17,11 @@ int main(void)
   camera.fovy = 45.0f;                                // Camera field-of-view Y
   camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
 
-  // load models
-  Model earth_model = LoadModel("res/earth/earth.obj"); //LoadModelFromMesh(GenMeshSphere(32, 64, 64)); //LoadModel("res/earth/earth.obj");
-  Texture2D earth_texture = LoadTexture("res/earth/earth_albedo.png");
-  earth_model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = earth_texture;
-  Vector3 earth_pos {0.0, 0.0, 0.0};
-
+  // initialize the planets
+  Planet earth { "res/earth/earth.obj", "res/earth/earth_albedo.png", (Vector3) {0.0, 0.0, 0.0}, 1.0f};
+  // Model earth_model = LoadModel("res/earth/earth.obj"); //LoadModelFromMesh(GenMeshSphere(32, 64, 64)); //LoadModel("res/earth/earth.obj");
+  // Texture2D earth_texture = LoadTexture("res/earth/earth_albedo.png");
+  
 
   SetCameraMode(camera, CAMERA_FREE);
   SetTargetFPS(60);               // target 60 fps
@@ -31,26 +31,23 @@ int main(void)
     {
       // Update
       UpdateCamera(&camera);
-      earth_pos = earth_pos + earth_pos;
+      earth.Update();
       
       // Draw
       BeginDrawing();
       BeginMode3D(camera);
       
       ClearBackground(BLACK);
-      DrawModel(earth_model, earth_pos, 1.0f, WHITE);
+      earth.Draw();
       
       
       EndMode3D();
       EndDrawing();
-  
+      
     }
 
   // De-Initialization
-  UnloadTexture(earth_texture);
-  UnloadModel(earth_model);
   CloseWindow();        // Close window and OpenGL context
-
 
   return 0;
 }
