@@ -25,5 +25,5 @@ private:
   Vector3 pos;
   BoundingBox box;
   RayCollision boundingBoxEntered; // when the bounding box is entered
-  RayCollision planetClicked; // when the mesh is clicked
+  bool planetClicked; // when the mesh is clicked
 }; 

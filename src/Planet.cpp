@@ -3,7 +3,7 @@
 #include <iostream>
 
 Planet::Planet(string model_path, string texture_path, Vector3 pos,  float scale)
-  : pos { pos }, scale { scale }
+  : pos { pos }, scale { scale }, planetClicked { true }
     
 {
   model = LoadModel(model_path);
@@ -44,11 +44,13 @@ void Planet::CheckPointer(Ray mouse)
     {
       // mouse entered bounding box
 
-
-      planetClicked = GetRayCollisionModel(mouse, model);
-      // TODO: check if clicked?
-      // TODO: Use TRACE_LOG
       
+      // check if planet is clicked
+      RayCollision planetModelClicked = GetRayCollisionModel(mouse, model);
+      if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && planetModelClicked.hit)
+	  planetClicked = true;
+      else
+	planetClicked = false;
     }
   
 }
@@ -61,9 +63,13 @@ void Planet::DisplayInfo()
   if(boundingBoxEntered.hit)
     {
       DrawBoundingBox(box, RED);
-      std::cerr << "Hello there" << std::endl;
     }
-	       
+
+  if(planetClicked)
+    {
+      DrawBoundingBox(box, WHITE);
+    }
+  
   
 }
 

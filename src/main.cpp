@@ -32,11 +32,12 @@ int main(void)
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+
       // Update
       UpdateCamera(&camera);
       ray = GetMouseRay(GetMousePosition(), camera);
-      earth.Update();
       earth.CheckPointer(ray);
+      earth.Update();
       
       // Draw
       BeginDrawing();
