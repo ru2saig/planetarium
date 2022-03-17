@@ -17,6 +17,7 @@ int main(void)
   camera.fovy = 45.0f;                                // Camera field-of-view Y
   camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
 
+  Ray ray;
   // initialize the planets
   Planet earth { "res/earth/earth.obj", "res/earth/earth_albedo.png", (Vector3) {0.0, 0.0, 0.0}, 1.0f};
   // Model earth_model = LoadModel("res/earth/earth.obj"); //LoadModelFromMesh(GenMeshSphere(32, 64, 64)); //LoadModel("res/earth/earth.obj");
@@ -31,7 +32,9 @@ int main(void)
     {
       // Update
       UpdateCamera(&camera);
+      ray = GetMouseRay(GetMousePosition(), camera);
       earth.Update();
+      earth.CheckPointer(ray);
       
       // Draw
       BeginDrawing();
