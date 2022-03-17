@@ -1,14 +1,16 @@
 #include <raylib.h>
 #include <PVector3.hpp>
 #include <Planet.hpp>
+#include <Window.hpp>
 
 using namespace VMath;
+
 
 int main(void)
 {
   // Initialization
-  SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
-  InitWindow(GetScreenWidth(), GetScreenHeight(), "Planetarium");
+  Window window;
+
 
   Camera camera = { 0 };
   camera.position = (Vector3){ 100.0f, 100.0f, 100.0f }; // Camera position
@@ -50,7 +52,8 @@ int main(void)
     }
 
   // De-Initialization
-  CloseWindow();        // Close window and OpenGL context
+
 
   return 0;
 }
+

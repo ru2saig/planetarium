@@ -1,6 +1,6 @@
-#include <utils.h>
 #include <raylib.h>
 #include <Planet.hpp>
+#include <iostream>
 
 Planet::Planet(string model_path, string texture_path, Vector3 pos,  float scale)
   : pos { pos }, scale { scale }
@@ -61,7 +61,7 @@ void Planet::DisplayInfo()
   if(boundingBoxEntered.hit)
     {
       DrawBoundingBox(box, RED);
-      TRACELOG(LOG_INFO, "PLANET: [%p] Planet bounding box entered", this);
+      std::cerr << "Hello there" << std::endl;
     }
 	       
   
