@@ -2,6 +2,7 @@
 #include <PVector3.hpp>
 #include <Planet.hpp>
 #include <Window.hpp>
+#include <iostream>
 
 using namespace VMath;
 
@@ -18,26 +19,38 @@ int main(void)
   camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
   camera.fovy = 45.0f;                                // Camera field-of-view Y
   camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
-
-  Ray ray;
-  // initialize the planets
-  Planet earth { "res/earth/earth.obj", "res/earth/earth_albedo.png", (Vector3) {0.0, 0.0, 0.0}, 1.0f};
-  // Model earth_model = LoadModel("res/earth/earth.obj"); //LoadModelFromMesh(GenMeshSphere(32, 64, 64)); //LoadModel("res/earth/earth.obj");
-  // Texture2D earth_texture = LoadTexture("res/earth/earth_albedo.png");
   
 
-  SetCameraMode(camera, CAMERA_FREE);
+  
+  // initialize the planets
+  Planet earth { "res/earth/earth.obj", "res/earth/earth_albedo.png", (Vector3) {0.0, 0.0, 0.0}, 1.0f};
+
+  SetCameraMode(camera, CAMERA_CUSTOM);
   SetTargetFPS(60);               // target 60 fps
 
+  Ray ray;
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
     {
 
       // Update
+      // TODO: add a custom update function, as camera is in CAMERA_CUSTOM mode
       UpdateCamera(&camera);
+
       ray = GetMouseRay(GetMousePosition(), camera);
+
       earth.CheckPointer(ray);
       earth.Update();
+
+      // if(earth.getClicked()) // zoom towards Earth
+      // 	{
+      // 	  // TODO: interpolate towards this
+      // 	  camera.target = earth.getPosition();
+
+      // 	  // TODO: interpolate towards this as well
+      // 	  // TODO: Make the zoom a little better, perhaps make it something like the follows:
+      // 	  camera.position = earth.getPosition() + (Vector3) {20.0, 20.0, 20.0};
+      // 	}
       
       // Draw
       BeginDrawing();
@@ -51,9 +64,6 @@ int main(void)
       EndDrawing();
       
     }
-
-  // De-Initialization
-
 
   return 0;
 }

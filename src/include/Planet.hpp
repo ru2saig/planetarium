@@ -18,12 +18,13 @@ public:
   void DisplayInfo() override;
   void CheckPointer(Ray);
   Vector3 getPosition() { return pos; }
+  bool getClicked() { return planetClicked; }
   
 private:
   float scale;
   string info;
   Vector3 pos;
   BoundingBox box;
-  RayCollision boundingBoxEntered; // when the bounding box is entered
-  bool planetClicked; // when the mesh is clicked
+  RayCollision boundingBoxEntered; // when pointer enters box
+  bool planetClicked; // if model itself is clicked
 }; 
