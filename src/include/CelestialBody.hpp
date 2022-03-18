@@ -7,5 +7,9 @@ public:
   virtual void Draw() = 0; 
   virtual void Update() = 0;
   virtual void DisplayInfo() = 0;
-  virtual ~CelestialBody () {}  
+  virtual ~CelestialBody () {}
+
+  Vector3 getPosition() { return pos; }
+protected:
+  Vector3 pos;
 };

@@ -10,8 +10,9 @@ float Planet::BASE_PLANET_RADIUS = 10.0f;
 
 
 Planet::Planet(string model_path, string texture_path, Vector3 pos,  float scale)
-  : pos { pos }, scale { scale }, planetClicked { false }, radius { scale * BASE_PLANET_RADIUS} 
+  : scale { scale }, planetClicked { false }, radius { scale * BASE_PLANET_RADIUS} 
 {
+  this->pos = pos;
   model = LoadModel(model_path);
   texture = LoadTexture(texture_path);
   model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
