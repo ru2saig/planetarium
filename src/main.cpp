@@ -42,15 +42,15 @@ int main(void)
       earth.CheckPointer(ray);
       earth.Update();
 
-      // if(earth.getClicked()) // zoom towards Earth
-      // 	{
-      // 	  // TODO: interpolate towards this
-      // 	  camera.target = earth.getPosition();
+      if(earth.getClicked()) // zoom towards Earth
+	{
+	  // TODO: interpolate towards this
+	  camera.target = earth.getPosition();
 
-      // 	  // TODO: interpolate towards this as well
-      // 	  // TODO: Make the zoom a little better, perhaps make it something like the follows:
-      // 	  camera.position = earth.getPosition() + (Vector3) {20.0, 20.0, 20.0};
-      // 	}
+	  // TODO: interpolate towards this as well
+	  // TODO: Make the zoom a little better, perhaps make it something like the follows:
+	  camera.position = earth.getPosition() + (Vector3) {20.0, 20.0, 20.0};
+	}
       
       // Draw
       BeginDrawing();

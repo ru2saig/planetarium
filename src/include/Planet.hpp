@@ -4,6 +4,7 @@
 typedef const char* string;
 #define FLT_MAX     340282346638528859811704183484516925440.0f     // Maximum value of a float, from bit pattern 01111111011111111111111111111111
 
+
 class Planet : CelestialBody
 {
 public:
@@ -21,10 +22,12 @@ public:
   bool getClicked() { return planetClicked; }
   
 private:
+  static float BASE_PLANET_RADIUS;
   float scale;
   string info;
   Vector3 pos;
-  BoundingBox box;
-  RayCollision boundingBoxEntered; // when pointer enters box
+  float radius;
+  RayCollision planetEntered; // when pointer enters box
   bool planetClicked; // if model itself is clicked
-}; 
+};
+
