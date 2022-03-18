@@ -19,7 +19,7 @@ public:
   void DisplayInfo() override;
   void CheckPointer(Ray);
   
-  bool getClicked() { return planetClicked; }
+  bool getClicked() { return clicked; }
   float getRadius() { return radius; }
   
 private:
@@ -28,6 +28,5 @@ private:
   string info;
   float radius;
   RayCollision planetEntered; // when pointer enters box
-  bool planetClicked; // if model itself is clicked
 };
 

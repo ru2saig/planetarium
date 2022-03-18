@@ -10,8 +10,9 @@ float Planet::BASE_PLANET_RADIUS = 10.0f;
 
 
 Planet::Planet(string model_path, string texture_path, Vector3 pos,  float scale)
-  : scale { scale }, planetClicked { false }, radius { scale * BASE_PLANET_RADIUS} 
+  : scale { scale }, radius { scale * BASE_PLANET_RADIUS} 
 {
+  this->clicked = false;
   this->pos = pos;
   model = LoadModel(model_path);
   texture = LoadTexture(texture_path);
@@ -27,7 +28,6 @@ Planet::~Planet()
 void Planet::Draw()
 {
   DrawModel(this->model, this->pos, this->scale, WHITE);
-  DisplayInfo();
 }
 
 void Planet::Update() 
@@ -55,23 +55,26 @@ void Planet::CheckPointer(Ray mouse)
       // check if planet is clicked
       RayCollision planetModelClicked = GetRayCollisionSphere(mouse, this->pos, 10.0f);
       if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && planetModelClicked.hit)
-	planetClicked = true;
-      else
-	planetClicked = false;
+	clickedTrue();
     }
-  
 }
 
 // display info in a panel near the planet
-// TODO: info panel DrawRecLines or somthn
 void Planet::DisplayInfo()
 {
-  if(planetEntered.hit and !planetClicked)
+  if(planetEntered.hit and !clicked)
     { // only display general info if planet is not clicked
-      //DrawSphere(this->pos, 10.0f, RED);
-    } else if(planetClicked and planetEntered.hit)
-    {
-      DrawSphere(this->pos, 10.0f, RED);
+      DrawRectangle(0, 0, 250, 250, BLACK); // TODO: add a little transparency, and make it gray
+      DrawRectangleLines(0, 0, 250, 250, WHITE);
+      DrawText("lorem ipsum salt and pepper too", 10, 10, 13, WHITE);
+      
+    }
+  else if(clicked)
+    { // display a lot of info
+      DrawRectangle(0, 0, 250, 250, BLACK); // TODO: add a little transparency, and make it gray
+      DrawRectangleLines(0, 0, 250, 250, WHITE);
+      DrawText("if sally sells seashells by the seashore, does that", 10, 10, 13, WHITE);
+      DrawText("make here a carpitalist?", 10, 20, 13, WHITE);      
     }  
 }
 

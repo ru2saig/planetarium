@@ -6,6 +6,10 @@
 #include <iostream>
 using namespace VMath;
 
+// TODO: Add info panel, on mouse rollover and on click. use some lorem ipsum
+// for now. Billborad textures? or will shapes work fine? (with alpha, ofc), use lined rectangel, shape example
+
+
 int main(void)
 {
   // initialize
@@ -23,7 +27,7 @@ int main(void)
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-
+      
       // Update
       cm.Update();
       
@@ -48,9 +52,12 @@ int main(void)
        
       ClearBackground(BLACK);
       earth.Draw();
-      
-      
+
       EndMode3D();
+      
+      earth.DisplayInfo();
+      
+      
       EndDrawing();
       
     }

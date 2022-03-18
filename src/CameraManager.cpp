@@ -7,7 +7,6 @@ using namespace VMath;
 
 void CameraManager::Update()//Camera *camera)
 {
-  // TODO: untarget, somehere
   if(target) // follow target
     {
       resetCamera();
@@ -51,6 +50,7 @@ void CameraManager::setTarget(CelestialBody *body)
   // TODO: Make the zoom a little better, perhaps make it something like the follows:
   cameraPtr->position = body->getPosition() + (Vector3) {20.0, 20.0, 20.0};
   this->target = body;
+  this->target->clickedTrue();
 }
 
 CameraManager& CameraManager::instance()
@@ -61,6 +61,7 @@ CameraManager& CameraManager::instance()
 
 void CameraManager::unsetTarget()
 {
+  this->target->clickedFalse();
   this->target = nullptr;
 }    
 

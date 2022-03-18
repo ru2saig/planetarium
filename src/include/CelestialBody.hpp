@@ -1,6 +1,5 @@
 #pragma once
 #include <raylib.h>
-typedef const char* string;
 
 class CelestialBody {
 public:
@@ -11,7 +10,12 @@ public:
 
   Vector3 getPosition() { return pos; }
   float getRadius() { return radius; }
+  bool getClicked() { return clicked; }
+  
+  void clickedTrue() { clicked = true; }
+  void clickedFalse() { clicked = false;}
 protected:
+  bool clicked;
   Vector3 pos;
   float radius;
 };
