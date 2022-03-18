@@ -68,10 +68,10 @@ void Planet::DisplayInfo()
 {
   if(planetEntered.hit and !planetClicked)
     { // only display general info if planet is not clicked
-      DrawSphere(this->pos, 10.0f, RED);
+      //DrawSphere(this->pos, 10.0f, RED);
     } else if(planetClicked and planetEntered.hit)
     {
-      DrawSphere(this->pos, 10.0f, WHITE);
+      DrawSphere(this->pos, 10.0f, RED);
     }  
 }
 

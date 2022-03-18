@@ -2,21 +2,21 @@
 #include <PVector3.hpp>
 #include <Planet.hpp>
 #include <Window.hpp>
-#include <PCamera.hpp>
+#include <CameraManager.hpp>
 #include <iostream>
 using namespace VMath;
-
 
 int main(void)
 {
   // initialize
   Window window;
   Ray ray;
-  PCamera* pcamera = PCamera::instance();
-  Camera camera = *(pcamera->getCamera());
+
+  CameraManager cm = CameraManager::instance();
   
   // planets
   Planet earth { "res/earth/earth.obj", "res/earth/earth_albedo.png", (Vector3) {0.0, 0.0, 0.0}, 1.0f};
+
   
   SetTargetFPS(60);               // target 60 fps
 
@@ -25,21 +25,27 @@ int main(void)
     {
 
       // Update
-      pcamera->Update();
+      cm.Update();
       
-      ray = GetMouseRay(GetMousePosition(), camera);
+      ray = GetMouseRay(GetMousePosition(), cm.getCamera());
 
-      earth.CheckPointer(ray); earth.Update();
-	  
+      earth.CheckPointer(ray);
+      earth.Update();
+      
       if (earth.getClicked()) // zoom towards Earth
 	{
-	  pcamera->SetTarget(&earth);
+	  cm.setTarget(&earth);
 	}
-	  
+
+      if (IsKeyPressed(KEY_Q))
+	{
+	  cm.unsetTarget();
+	}
+      
       // Draw
       BeginDrawing();
-      BeginMode3D(camera);
-	  
+      BeginMode3D(cm.getCamera());
+       
       ClearBackground(BLACK);
       earth.Draw();
       

@@ -10,6 +10,8 @@ public:
   virtual ~CelestialBody () {}
 
   Vector3 getPosition() { return pos; }
+  float getRadius() { return radius; }
 protected:
   Vector3 pos;
+  float radius;
 };

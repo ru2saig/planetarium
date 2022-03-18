@@ -18,7 +18,9 @@ public:
   void Update() override;
   void DisplayInfo() override;
   void CheckPointer(Ray);
+  
   bool getClicked() { return planetClicked; }
+  float getRadius() { return radius; }
   
 private:
   static float BASE_PLANET_RADIUS;
