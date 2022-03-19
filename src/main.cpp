@@ -20,37 +20,38 @@ int main(void)
   CameraManager cm = CameraManager::instance();
   
   // planets
-  std::vector<Planet*> planets;
-  planets[0] = new Planet {"res/models/mercury/mercury.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 10.0f};
-  //planets[1] = new Planet {"res/models/venus/venusBuilt.obj",  "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 0.0, 50.0, 0.0}, 1.0f};
+  //std::vector<Planet> planets; // put em in a vector?
+  Planet earth{"res/models/mercury/mercury.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 10.0f };
+  // TODO: this is causing the segfault. Why?
+  Planet venus{"res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 0.0, 50.0, 0.0}, 1.0f };
   //planets[2] = new Planet {"res/models/earth/earth.obj", "res/textures/earth/earth_albedo.png", Vector3 {0.0, 100.0, 0.0}, 1.0f};
   
 
   
-  
+  std::cerr << "Initialized" << std::endl;
   SetTargetFPS(60);               // target 60 fps
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-      
+
       // Update
       cm.Update();
       
       ray = GetMouseRay(GetMousePosition(), cm.getCamera());
 
-      for(Planet* planet : planets)
+
+      for(Planet& planet : planets)
 	{
-	  planet->CheckPointer(ray);
-	  planet->Update();
-	  
-	  if(planet->getClicked())
+	  planet.CheckPointer(ray);
+	  planet.Update();
+
+	  if(planet.getClicked())
 	    {
-	      cm.unsetTarget(); // needed?
-	      cm.setTarget(planet);
+	      //cm.unsetTarget(); 
+	      cm.setTarget(&planet);
 	    }
 	}
-            
-      
+
       if (IsKeyPressed(KEY_Q))
 	{
 	  cm.unsetTarget();
@@ -62,14 +63,15 @@ int main(void)
        
       ClearBackground(BLACK);
 
-      for(Planet* planet : planets)
-	planet->Draw();
+      for(Planet& planet : planets)
+	planet.Draw();
       
       EndMode3D();
+		   
 
       // better place to put this?
-      for(Planet* planet : planets)
-	planet->DisplayInfo();
+      for(Planet& planet : planets)
+	planet.DisplayInfo();
       
       EndDrawing();
       
