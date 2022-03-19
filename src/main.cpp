@@ -20,10 +20,11 @@ int main(void)
   CameraManager cm = CameraManager::instance();
   
   // planets
-  //std::vector<Planet> planets; // put em in a vector?
-  Planet earth{"res/models/mercury/mercury.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 10.0f };
-  // TODO: this is causing the segfault. Why?
-  Planet venus{"res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 0.0, 50.0, 0.0}, 1.0f };
+  std::vector<Planet> planets; // put em in a vector?
+  planets.reserve(9);
+  Planet mercury {"res/models/mercury/mercury.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 10.0f };
+  planets[0] = mercury;
+  //planets[1] = Planet {"res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 0.0, 50.0, 0.0}, 1.0f };
   //planets[2] = new Planet {"res/models/earth/earth.obj", "res/textures/earth/earth_albedo.png", Vector3 {0.0, 100.0, 0.0}, 1.0f};
   
 
