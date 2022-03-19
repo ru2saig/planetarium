@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include <CameraManager.hpp>
 #include <rcamera.h>
 #include <PVector3.hpp>
@@ -9,24 +10,16 @@ void CameraManager::Update()//Camera *camera)
 {
   if(target) // follow target
     {
-      resetCamera();
-      SetCameraMode(this->getCamera(), CAMERA_CUSTOM);
-      
       float r = target->getRadius();
       cameraPtr->target = target->getPosition();
       cameraPtr->position = target->getPosition() + (Vector3) {r*2, r*2, r*2};
     }
-  else
-    { // free roam camera
-      resetCamera();
-      SetCameraMode(this->getCamera(), CAMERA_FREE);
-    }
-
+  
   UpdateCamera(cameraPtr);
 }
 
 
-void CameraManager::resetCamera() // this causing the segmentation fault?
+void CameraManager::resetCamera() 
 {
   Vector3 pos = cameraPtr->position;
   Vector3 target = cameraPtr->target;
@@ -44,6 +37,8 @@ void CameraManager::resetCamera() // this causing the segmentation fault?
 
 void CameraManager::setTarget(CelestialBody *body)
 {
+  resetCamera();
+  SetCameraMode(*cameraPtr, CAMERA_CUSTOM);
   // TODO: interpolate towards this
   cameraPtr->target = body->getPosition();
   // TODO: interpolate towards this as well
@@ -62,6 +57,8 @@ CameraManager& CameraManager::instance()
 void CameraManager::unsetTarget()
 {
   if(this->target) {
+    resetCamera();
+    SetCameraMode(*cameraPtr, CAMERA_FREE);
     this->target->clickedFalse();
     this->target = nullptr;
   }
@@ -77,7 +74,7 @@ CameraManager::CameraManager() //(Camera *camera)
   cameraPtr->fovy = 45.0f;                                
   cameraPtr->projection = CAMERA_PERSPECTIVE;
   
-  SetCameraMode(*cameraPtr, CAMERA_CUSTOM);
+  SetCameraMode(*cameraPtr, CAMERA_FREE);
 }
 
 CameraManager::~CameraManager()
