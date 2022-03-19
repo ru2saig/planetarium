@@ -26,7 +26,7 @@ void CameraManager::Update()//Camera *camera)
 }
 
 
-void CameraManager::resetCamera()
+void CameraManager::resetCamera() // this causing the segmentation fault?
 {
   Vector3 pos = cameraPtr->position;
   Vector3 target = cameraPtr->target;
@@ -61,8 +61,10 @@ CameraManager& CameraManager::instance()
 
 void CameraManager::unsetTarget()
 {
-  this->target->clickedFalse();
-  this->target = nullptr;
+  if(this->target) {
+    this->target->clickedFalse();
+    this->target = nullptr;
+  }
 }    
 
 CameraManager::CameraManager() //(Camera *camera)

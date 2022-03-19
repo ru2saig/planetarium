@@ -39,7 +39,7 @@ void Planet::Update()
   // what physics?
   // rotation on axis (how?) model.transform <- MatrixRotateXYZ((Vector3){  });
   // rotation around the sun (how?)
-  pos = pos + (Vector3) {0.1f, 0.0f, 0.0f};
+  // pos = pos + (Vector3) {0.1f, 0.0f, 0.0f};
   
 }
 
@@ -67,10 +67,14 @@ void Planet::DisplayInfo()
       DrawRectangle(0, 0, 250, 250, BLACK); // TODO: add a little transparency, and make it gray
       DrawRectangleLines(0, 0, 250, 250, WHITE);
       DrawText("lorem ipsum salt and pepper too", 10, 10, 13, WHITE);
-      
+
+      //DrawSphere(this->pos,  this->radius, RED);
     }
   else if(clicked)
     { // display a lot of info
+      //DrawSphere(this->pos,  this->radius + 5.0f, PINK);
+
+
       DrawRectangle(0, 0, 250, 250, BLACK); // TODO: add a little transparency, and make it gray
       DrawRectangleLines(0, 0, 250, 250, WHITE);
       DrawText("if sally sells seashells by the seashore, does that", 10, 10, 13, WHITE);

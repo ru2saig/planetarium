@@ -4,6 +4,7 @@
 #include <Window.hpp>
 #include <CameraManager.hpp>
 #include <iostream>
+#include <vector>
 using namespace VMath;
 
 // TODO: Add info panel, on mouse rollover and on click. use some lorem ipsum
@@ -19,11 +20,15 @@ int main(void)
   CameraManager cm = CameraManager::instance();
   
   // planets
-  Planet earth { "res/earth/earth.obj", "res/earth/earth_albedo.png", (Vector3) {0.0, 0.0, 0.0}, 1.0f};
+  std::vector<Planet*> planets;
+  planets[0] = new Planet {"res/models/mercury/mercury.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 10.0f};
+  //planets[1] = new Planet {"res/models/venus/venusBuilt.obj",  "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 0.0, 50.0, 0.0}, 1.0f};
+  //planets[2] = new Planet {"res/models/earth/earth.obj", "res/textures/earth/earth_albedo.png", Vector3 {0.0, 100.0, 0.0}, 1.0f};
+  
 
   
+  
   SetTargetFPS(60);               // target 60 fps
-
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
     {
@@ -33,14 +38,19 @@ int main(void)
       
       ray = GetMouseRay(GetMousePosition(), cm.getCamera());
 
-      earth.CheckPointer(ray);
-      earth.Update();
-      
-      if (earth.getClicked()) // zoom towards Earth
+      for(Planet* planet : planets)
 	{
-	  cm.setTarget(&earth);
+	  planet->CheckPointer(ray);
+	  planet->Update();
+	  
+	  if(planet->getClicked())
+	    {
+	      cm.unsetTarget(); // needed?
+	      cm.setTarget(planet);
+	    }
 	}
-
+            
+      
       if (IsKeyPressed(KEY_Q))
 	{
 	  cm.unsetTarget();
@@ -51,12 +61,15 @@ int main(void)
       BeginMode3D(cm.getCamera());
        
       ClearBackground(BLACK);
-      earth.Draw();
 
+      for(Planet* planet : planets)
+	planet->Draw();
+      
       EndMode3D();
-      
-      earth.DisplayInfo();
-      
+
+      // better place to put this?
+      for(Planet* planet : planets)
+	planet->DisplayInfo();
       
       EndDrawing();
       
@@ -64,4 +77,6 @@ int main(void)
 
   return 0;
 }
+
+
 
