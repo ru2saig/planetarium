@@ -9,7 +9,9 @@ float Planet::BASE_PLANET_RADIUS = 10.0f;
 
 // TODO: How to set other materials? like emission
 //       How to add more models, with their own textures
-// TODO: click radius is a tad smaller than the mesh's radius. Why?
+
+
+// [PRI0] TODO: click radius is a tad smaller than the mesh's radius. Why?
 Planet::Planet(string model_path, string texture_path, Vector3 pos,  float radius)
 {
   this->radius = radius * Planet::BASE_PLANET_RADIUS;
