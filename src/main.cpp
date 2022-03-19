@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <PVector3.hpp>
 #include <Planet.hpp>
+#include <Sun.hpp>
 #include <Window.hpp>
 #include <CameraManager.hpp>
 #include <iostream>
@@ -22,12 +23,16 @@ int main(void)
   // planets
   Planet mercury { "res/models/mercury/mercuryBuilt.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 1.0f };
   Planet venus { "res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 30.0, 0.0, 0.0}, 1.0f };
-  Planet earth { "res/models/earth/earth.obj", "res/textures/earth/earth_albedo.png", Vector3 {60.0,0.0, 0.0}, 0.1f};
+  Planet earth { "res/models/earth/earth.obj", "res/textures/earth/earth_albedo.png", Vector3 {60.0 ,0.0, 0.0}, 0.1f};
   Planet mars { "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , Vector3 { 90.0, 0.0, 0.0}, 1.0f};
   Planet jupiter { "res/models/jupiter/jupiterBuilt.obj", "res/textures/jupiter/2k_jupiter.png", Vector3 { 120.0, 0.0,  0.0}, 1.0f};
   Planet saturn { "res/models/saturn/saturnBuilt.obj", "res/textures/saturn/2k_saturn.png", Vector3 { 150.0, 0.0, 0.0}, 1.0f};
   Planet uranus { "res/models/uranus/uranusBuilt.obj", "res/textures/uranus/2k_uranus.png", Vector3 { 180.0, 0.0, 0.0}, 1.0f};
   Planet neptune { "res/models/neptune/neptuneBuilt.obj", "res/textures/neptune/2k_neptune.png", Vector3 { 210.0, 0.0, 0.0}, 1.0f};  
+
+  // sun
+  Sun sun { "res/models/sun/sunBuilt.obj", "res/textures/sun/2k_sun.png" }; // the sun is at the centre of the Unierse. Galieo rollin' in his grave
+  
   
   SetTargetFPS(60);               // target 60 fps
   // Main game loop
@@ -38,7 +43,12 @@ int main(void)
       
       ray = GetMouseRay(GetMousePosition(), cm.getCamera());
 
-      // update plaents
+      
+      // update celestial bodies
+      sun.CheckPointer(ray);
+      sun.Update();
+
+      
       mercury.CheckPointer(ray);
       mercury.Update();
       venus.CheckPointer(ray);
@@ -73,6 +83,8 @@ int main(void)
 	cm.setTarget(&uranus);
       else if(neptune.getClicked())
 	cm.setTarget(&neptune);
+      else if(sun.getClicked())
+	cm.setTarget(&sun);
 
       
 
@@ -96,6 +108,7 @@ int main(void)
       saturn.Draw();
       uranus.Draw();
       neptune.Draw();
+      sun.Draw();
       
       EndMode3D();
 
@@ -108,6 +121,7 @@ int main(void)
       saturn.DisplayInfo();
       uranus.DisplayInfo();
       neptune.DisplayInfo();
+      sun.DisplayInfo();
       
       EndDrawing();
       

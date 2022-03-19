@@ -1,38 +1,38 @@
 #include <raylib.h>
-#include <Planet.hpp>
+#include <Sun.hpp>
 #include <PVector3.hpp>
 
 #include <iostream>
 using namespace VMath;
 
-float Planet::BASE_PLANET_RADIUS = 10.0f;
+// TODO: How to set other materials? like emission
+//       How to add more models, with their own textures
 
-Planet::Planet(string model_path, string texture_path, Vector3 pos,  float radius)
+Sun::Sun(string model_path, string texture_path)
 {
-  this->radius = radius * Planet::BASE_PLANET_RADIUS;
+  this->radius = 100.0f;
   this->clicked = false;
-  this->pos = pos;
+  this->pos = Vector3 { 0.0f, 0.0f, 0.0f };
   model = LoadModel(model_path);
   texture = LoadTexture(texture_path);
   model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 }
 
-Planet::~Planet()
+Sun::~Sun()
 {
   UnloadTexture(texture);
   UnloadModel(model);
 }
 
-void Planet::Draw()
+void Sun::Draw()
 {
   DrawSphere(this->pos,  this->radius, Color { 255, 0, 0, 50});
   DrawModel(this->model, this->pos, this->radius * 1.5, WHITE);
 }
 
-void Planet::Update() 
+void Sun::Update() 
 {
-  // Updating bounding box: make new bounding box each time
-  // TODO: is it possible to get the radius of the sphere from mesh data?
+  // the sun shall sit there ominously, making ominous noises
   
   // do physics here
   // what physics?
@@ -42,26 +42,26 @@ void Planet::Update()
 }
 
 // check if the pointer entered the vicinity and the mesh itself
-void Planet::CheckPointer(Ray mouse)
+void Sun::CheckPointer(Ray mouse)
 {
  
-  // planetClicked is used to check if the planet was clicked on
-  planetEntered = GetRayCollisionSphere(mouse, this->pos, this->radius);
-  if ((planetEntered.hit) && (planetEntered.distance < FLT_MAX))
-    { // mouseover the planet
+  // sunClicked is used to check if the sun was clicked on
+  sunEntered = GetRayCollisionSphere(mouse, this->pos, this->radius);
+  if ((sunEntered.hit) && (sunEntered.distance < FLT_MAX))
+    { // mouseover the sun
 
-      // check if planet is clicked
-      RayCollision planetModelClicked = GetRayCollisionSphere(mouse, this->pos, this->radius);
-      if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && planetModelClicked.hit)
+      // check if sun is clicked
+      RayCollision sunModelClicked = GetRayCollisionSphere(mouse, this->pos, this->radius);
+      if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && sunModelClicked.hit)
 	clickedTrue();
     }
 }
 
-// display info in a panel near the planet
-void Planet::DisplayInfo()
+// display info in a panel near the sun
+void Sun::DisplayInfo()
 {
-  if(planetEntered.hit and !clicked)
-    { // only display general info if planet is not clicked
+  if(sunEntered.hit and !clicked)
+    { // only display general info if sun is not clicked
       DrawRectangle(0, 0, 250, 250, BLACK); // TODO: add a little transparency, and make it gray
       DrawRectangleLines(0, 0, 250, 250, WHITE);
       DrawText("lorem ipsum salt and pepper too", 10, 10, 13, WHITE);

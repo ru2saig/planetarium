@@ -68,8 +68,8 @@ CameraManager::CameraManager() //(Camera *camera)
   : target { nullptr }
 {
   cameraPtr = new Camera;
-  cameraPtr->position = (Vector3){ 0.0f, 100.0f, 0.0f }; 
-  cameraPtr->target = (Vector3){ 0.0f, 10.0f, 0.0f };     
+  cameraPtr->position = (Vector3){ 0.0f, 250.0f, 0.0f }; 
+  cameraPtr->target = (Vector3){ 0.0f, 0.0f, 0.0f };     
   cameraPtr->up = (Vector3){ 0.0f, 1.0f, 0.0f };          
   cameraPtr->fovy = 45.0f;                                
   cameraPtr->projection = CAMERA_PERSPECTIVE;
