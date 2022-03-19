@@ -21,13 +21,13 @@ int main(void)
   
   // planets
   Planet mercury { "res/models/mercury/mercury.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 1.0f };
-  Planet venus { "res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 0.0, 30.0, 0.0}, 1.0f };
-  Planet earth { "res/models/earth/earth.obj", "res/textures/earth/earth_albedo.png", Vector3 {0.0, 60.0, 0.0}, 0.1f};
-  Planet mars { "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , Vector3 { 0.0, 90.0, 0.0}, 1.0f};
-  Planet jupiter { "res/models/jupiter/jupiterBuilt.obj", "res/textures/jupiter/2k_jupiter.png", Vector3 { 0.0, 120.0, 0.0}, 1.0f};
-  Planet saturn { "res/models/saturn/saturnBuilt.obj", "res/textures/saturn/2k_saturn.png", Vector3 { 0.0, 150.0, 0.0}, 1.0f};
-  Planet uranus { "res/models/uranus/uranusBuilt.obj", "res/textures/uranus/2k_uranus.png", Vector3 { 0.0, 180.0, 0.0}, 1.0f};
-  Planet neptune { "res/models/neptune/neptuneBuilt.obj", "res/textures/neptune/2k_neptune.png", Vector3 { 0.0, 210.0, 0.0}, 1.0f};  
+  Planet venus { "res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 30.0, 0.0, 0.0}, 1.0f };
+  Planet earth { "res/models/earth/earth.obj", "res/textures/earth/earth_albedo.png", Vector3 {60.0,0.0, 0.0}, 0.1f};
+  Planet mars { "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , Vector3 { 90.0, 0.0, 0.0}, 1.0f};
+  Planet jupiter { "res/models/jupiter/jupiterBuilt.obj", "res/textures/jupiter/2k_jupiter.png", Vector3 { 120.0, 0.0,  0.0}, 1.0f};
+  Planet saturn { "res/models/saturn/saturnBuilt.obj", "res/textures/saturn/2k_saturn.png", Vector3 { 150.0, 0.0, 0.0}, 1.0f};
+  Planet uranus { "res/models/uranus/uranusBuilt.obj", "res/textures/uranus/2k_uranus.png", Vector3 { 180.0, 0.0, 0.0}, 1.0f};
+  Planet neptune { "res/models/neptune/neptuneBuilt.obj", "res/textures/neptune/2k_neptune.png", Vector3 { 210.0, 0.0, 0.0}, 1.0f};  
   
   SetTargetFPS(60);               // target 60 fps
   // Main game loop

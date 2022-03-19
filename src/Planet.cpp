@@ -10,8 +10,6 @@ float Planet::BASE_PLANET_RADIUS = 10.0f;
 // TODO: How to set other materials? like emission
 //       How to add more models, with their own textures
 
-
-// [PRI0] TODO: click radius is a tad smaller than the mesh's radius. Why?
 Planet::Planet(string model_path, string texture_path, Vector3 pos,  float radius)
 {
   this->radius = radius * Planet::BASE_PLANET_RADIUS;
@@ -30,8 +28,8 @@ Planet::~Planet()
 
 void Planet::Draw()
 {
-  DrawSphere(this->pos,  this->radius, RED);
-  DrawModel(this->model, this->pos, this->radius, WHITE);
+  DrawSphere(this->pos,  this->radius, Color { 255, 0, 0, 50});
+  DrawModel(this->model, this->pos, this->radius * 1.5, WHITE);
 }
 
 void Planet::Update() 
@@ -67,9 +65,6 @@ void Planet::DisplayInfo()
 {
   if(planetEntered.hit and !clicked)
     { // only display general info if planet is not clicked
-
-
-
       DrawRectangle(0, 0, 250, 250, BLACK); // TODO: add a little transparency, and make it gray
       DrawRectangleLines(0, 0, 250, 250, WHITE);
       DrawText("lorem ipsum salt and pepper too", 10, 10, 13, WHITE);
