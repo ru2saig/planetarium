@@ -20,7 +20,7 @@ int main(void)
   CameraManager cm = CameraManager::instance();
   
   // planets
-  Planet mercury { "res/models/mercury/mercury.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 1.0f };
+  Planet mercury { "res/models/mercury/mercuryBuilt.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 1.0f };
   Planet venus { "res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 30.0, 0.0, 0.0}, 1.0f };
   Planet earth { "res/models/earth/earth.obj", "res/textures/earth/earth_albedo.png", Vector3 {60.0,0.0, 0.0}, 0.1f};
   Planet mars { "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , Vector3 { 90.0, 0.0, 0.0}, 1.0f};
