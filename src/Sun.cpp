@@ -12,7 +12,7 @@ Sun::Sun(string model_path, string texture_path)
 {
   this->radius = 100.0f;
   this->clicked = false;
-  this->pos = Vector3 { 0.0f, 0.0f, 0.0f };
+  this->pos = Vector3 { -150.0f, 0.0f, 0.0f }; // TODO: Change this back, before doing orbits
   model = LoadModel(model_path);
   texture = LoadTexture(texture_path);
   model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
