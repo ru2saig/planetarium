@@ -24,9 +24,7 @@ public:
   
 private:
   static float BASE_PLANET_RADIUS;
-  float scale;
   string info;
-  float radius;
   RayCollision planetEntered; // when pointer enters box
 };
 
