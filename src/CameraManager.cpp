@@ -70,7 +70,6 @@ CameraManager::CameraManager()
   : target { nullptr }
 {
 
-  // TODO: how to make sure things aren't cut out?
   cameraPtr = new Camera;
   cameraPtr->position = (Vector3){ 0.0f, 0.0f, 350.0f }; 
   cameraPtr->target = (Vector3){ 0.0f, 0.0f, 0.0f };     

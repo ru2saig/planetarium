@@ -7,8 +7,11 @@
 using namespace VMath;
 
 float Planet::BASE_PLANET_RADIUS = 10.0f;
+bool Planet::showOrbit = false;
+bool Planet::showHitBox = false;
 
-Planet::Planet(string model_path, string texture_path, Vector3 pos,  float radius, float orbitPeriod)
+Planet::Planet(string model_path, string texture_path, Vector3 pos,
+               float radius, float orbitPeriod)
 {
   this->radius = radius * Planet::BASE_PLANET_RADIUS;
   this->clicked = false;
@@ -30,9 +33,13 @@ Planet::~Planet()
 
 void Planet::Draw()
 {
-  //  DrawSphere(this->pos,  this->radius, Color { 255, 0, 0, 50});
+  if(showHitBox)
+    DrawSphere(this->pos,  this->radius, Color { 255, 0, 0, 50});
+
   DrawModel(this->model, this->pos, this->radius * 1.5, WHITE);
-  this->orbit.Draw();
+
+  if(showOrbit)
+    this->orbit.Draw();
 }
 
 void Planet::Update() 

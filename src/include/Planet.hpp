@@ -22,9 +22,14 @@ public:
   
   bool getClicked() { return clicked; }
   float getRadius() { return radius; }
+
+  static void toggleShowOrbit() { Planet::showOrbit = !Planet::showOrbit; }
+  static void toggleShowHitBox() { Planet::showHitBox = !Planet::showHitBox; }
   
 private:
   static float BASE_PLANET_RADIUS;
+  static bool showOrbit;
+  static bool showHitBox;
 
   Orbit orbit;
   string info;

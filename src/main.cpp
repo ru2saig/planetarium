@@ -5,13 +5,8 @@
 #include <Sun.hpp>
 #include <Window.hpp>
 #include <CameraManager.hpp>
-#include <iostream>
 #include <vector>
 using namespace VMath;
-
-// TODO: Add info panel, on mouse rollover and on click. use some lorem ipsum
-// for now. Billborad textures? or will shapes work fine? (with alpha, ofc), use lined rectangel, shape example
-
 
 int main(void)
 {
@@ -47,12 +42,10 @@ int main(void)
       
       ray = GetMouseRay(GetMousePosition(), cm.getCamera());
 
-      
+      // TODO: put all these in some sort of iterable list
       // update celestial bodies
       sun.CheckPointer(ray);
-      sun.Update();
-
-      
+      sun.Update();      
       mercury.CheckPointer(ray);
       mercury.Update();
       venus.CheckPointer(ray);
@@ -92,9 +85,11 @@ int main(void)
 
      
       if (IsKeyPressed(KEY_Q))
-	{
 	  cm.unsetTarget();
-	}
+      if(IsKeyPressed(KEY_D))
+	Planet::toggleShowHitBox();
+      if(IsKeyPressed(KEY_O))
+	Planet::toggleShowOrbit();
       
       // Draw
       BeginDrawing();
