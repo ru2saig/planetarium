@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <rlgl.h>
 #include <PVector3.hpp>
 #include <Planet.hpp>
 #include <Sun.hpp>
@@ -21,19 +22,22 @@ int main(void)
   CameraManager cm = CameraManager::instance();
   
   // planets
-  Planet mercury { "res/models/mercury/mercuryBuilt.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 0.0, 0.0, 0.0}, 1.0f };
-  Planet venus { "res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 30.0, 0.0, 0.0}, 1.0f };
-  Planet earth { "res/models/earth/earthBuilt.obj", "res/textures/earth/earth_albedo.png", Vector3 {60.0 ,0.0, 0.0}, 1.0f};
-  Planet mars { "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , Vector3 { 90.0, 0.0, 0.0}, 1.0f};
-  Planet jupiter { "res/models/jupiter/jupiterBuilt.obj", "res/textures/jupiter/2k_jupiter.png", Vector3 { 120.0, 0.0,  0.0}, 1.0f};
-  Planet saturn { "res/models/saturn/saturnBuilt.obj", "res/textures/saturn/2k_saturn.png", Vector3 { 150.0, 0.0, 0.0}, 1.0f};
-  Planet uranus { "res/models/uranus/uranusBuilt.obj", "res/textures/uranus/2k_uranus.png", Vector3 { 180.0, 0.0, 0.0}, 1.0f};
-  Planet neptune { "res/models/neptune/neptuneBuilt.obj", "res/textures/neptune/2k_neptune.png", Vector3 { 210.0, 0.0, 0.0}, 1.0f};  
+  // 1 pixel = 100,000 km (way to large)
+  // all planets are set to scale in reference to the Earth
+  
+  Planet mercury { "res/models/mercury/mercuryBuilt.obj", "res/textures/mercury/mercury_albedo.png", Vector3 { 140.0, 0.0, 0.0}, 0.33f, 142.0f};
+  Planet venus { "res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", Vector3 { 220.0, 0.0, 0.0}, 0.94f, 375.0f };
+  Planet earth { "res/models/earth/earthBuilt.obj", "res/textures/earth/earth_albedo.png", Vector3 {500.0f ,0.0, 0.0}, 1.0f, 600.0};
+  Planet mars { "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , Vector3 { 600.0, 0.0, 0.0}, 0.5f, 900.0};
+  Planet jupiter { "res/models/jupiter/jupiterBuilt.obj", "res/textures/jupiter/2k_jupiter.png", Vector3 { 800.0, 0.0,  0.0}, 11.0f, 7142.0f};
+  Planet saturn { "res/models/saturn/saturnBuilt.obj", "res/textures/saturn/2k_saturn.png", Vector3 { 1000.0, 0.0, 0.0}, 9.0f, 17647.0f};
+  Planet uranus { "res/models/uranus/uranusBuilt.obj", "res/textures/uranus/2k_uranus.png", Vector3 { 1200.0, 0.0, 0.0}, 4.0f, 50000.0f};
+  Planet neptune { "res/models/neptune/neptuneBuilt.obj", "res/textures/neptune/2k_neptune.png", Vector3 { 1300.0, 0.0, 0.0}, 3.9f, 100000.0f};
 
   // sun
   Sun sun { "res/models/sun/sunBuilt.obj", "res/textures/sun/2k_sun.png" }; // the sun is at the centre of the Unierse. Galieo rollin' in his grave
   
-  
+
   SetTargetFPS(60);               // target 60 fps
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -84,10 +88,9 @@ int main(void)
       else if(neptune.getClicked())
 	cm.setTarget(&neptune);
       else if(sun.getClicked())
-	cm.setTarget(&sun);
+       	cm.setTarget(&sun);
 
-      
-
+     
       if (IsKeyPressed(KEY_Q))
 	{
 	  cm.unsetTarget();
@@ -109,6 +112,7 @@ int main(void)
       uranus.Draw();
       neptune.Draw();
       sun.Draw();
+
       
       EndMode3D();
 

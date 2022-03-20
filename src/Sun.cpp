@@ -12,7 +12,7 @@ Sun::Sun(string model_path, string texture_path)
 {
   this->radius = 100.0f;
   this->clicked = false;
-  this->pos = Vector3 { -150.0f, 0.0f, 0.0f }; // TODO: Change this back, before doing orbits
+  this->pos = Vector3 { 0.0f, 0.0f, 0.0f }; // Galieo rollin' in his grave
   model = LoadModel(model_path);
   texture = LoadTexture(texture_path);
   model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
@@ -26,7 +26,7 @@ Sun::~Sun()
 
 void Sun::Draw()
 {
-  DrawSphere(this->pos,  this->radius, Color { 255, 0, 0, 50});
+  //  DrawSphere(this->pos,  this->radius, Color { 255, 0, 0, 50});
   DrawModel(this->model, this->pos, this->radius * 1.5, WHITE);
 }
 

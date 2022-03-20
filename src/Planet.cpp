@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <Orbit.hpp>
 #include <Planet.hpp>
 #include <PVector3.hpp>
 
@@ -7,11 +8,15 @@ using namespace VMath;
 
 float Planet::BASE_PLANET_RADIUS = 10.0f;
 
-Planet::Planet(string model_path, string texture_path, Vector3 pos,  float radius)
+Planet::Planet(string model_path, string texture_path, Vector3 pos,  float radius, float orbitPeriod)
 {
   this->radius = radius * Planet::BASE_PLANET_RADIUS;
   this->clicked = false;
   this->pos = pos;
+
+  // TODO: why shoudl this work? why is it not? (without the center argumetn)
+  this->orbit = Orbit(this->pos.x, orbitPeriod, Vector3 { 0.0f, 0.0f, 0.0f });
+  
   model = LoadModel(model_path);
   texture = LoadTexture(texture_path);
   model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
@@ -25,12 +30,15 @@ Planet::~Planet()
 
 void Planet::Draw()
 {
-  DrawSphere(this->pos,  this->radius, Color { 255, 0, 0, 50});
+  //  DrawSphere(this->pos,  this->radius, Color { 255, 0, 0, 50});
   DrawModel(this->model, this->pos, this->radius * 1.5, WHITE);
+  this->orbit.Draw();
 }
 
 void Planet::Update() 
 {
+  pos = orbit.Evaluate();
+  orbit.Update();
   // Updating bounding box: make new bounding box each time
   // TODO: is it possible to get the radius of the sphere from mesh data?
   
