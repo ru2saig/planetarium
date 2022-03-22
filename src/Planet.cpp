@@ -1,8 +1,10 @@
 #include <raylib.h>
+#include <Utility.hpp>
 #include <Orbit.hpp>
 #include <Planet.hpp>
 #include <PVector3.hpp>
 #include <fstream>
+#include <cstdlib>
 #include <iostream>
 using namespace VMath;
 
@@ -23,6 +25,7 @@ Planet::Planet(string model_path, string texture_path, string info_path, Vector3
   if(!info) {
     std::cerr << "[FAILED IO] Failed to open file: " << info_path << std::endl;
   } else {
+    std::cerr << "[FILE IO] Successfully opened file: " << info_path << std::endl;
     info.getline(planetName, 256);
     info.getline(planetInfo, 256);
     info.getline(mass, 256);
@@ -98,10 +101,8 @@ void Planet::DisplayInfo()
   if(planetEntered.hit && !clicked)
     { // only display general info if planet is not clicked
       // TODO: for the information, add a way that auto-formats text, like a text box class
-      DrawRectangle(0, 0, 250, 250, BLACK); // TODO: add a little transparency, and make it gray
-      DrawRectangleLines(0, 0, 250, 250, WHITE);
-      DrawText(planetName, 4, 4, 13, WHITE);
-      DrawText(planetInfo, 4, 17, 13, WHITE);
+      DrawTextBox(0, 0, 250, 250, "%s %s", planetName, planetInfo);      
+
     }
   else if(clicked)
     { // display a lot of info
