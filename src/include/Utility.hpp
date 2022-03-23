@@ -50,7 +50,8 @@ void DrawTextBox(int x, int y, int width, int height, const char* format...)
   va_start(args, format);
   
   const char* buf;
-
+  vprintf(format, args);
+  
   // get the formated strings into buf
 
   //DrawText(buf, x+4, y+4, 13, WHITE);

@@ -101,7 +101,7 @@ void Planet::DisplayInfo()
   if(planetEntered.hit && !clicked)
     { // only display general info if planet is not clicked
       // TODO: for the information, add a way that auto-formats text, like a text box class
-      DrawTextBox(0, 0, 250, 250, "%s %s", planetName, planetInfo);      
+      DrawTextBox(0, 0, 250, 250, "%s %s\n", planetName, planetInfo);      
 
     }
   else if(clicked)
