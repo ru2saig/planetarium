@@ -38,7 +38,7 @@ private:
 
   // general info
   cstring planetName;
-  cstring planetInfo;
+  char* planetInfo;
   
   // detailed info
   cstring mass; // 10^24 kg

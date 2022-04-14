@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include <CelestialBody.hpp>
+#include <Utility.hpp>
 
 class Sun : public CelestialBody
 {
@@ -20,7 +21,7 @@ public:
   float getRadius() { return radius; }
   
 private:
-  string info;
+  char* sunInfo;
   RayCollision sunEntered; // when pointer enters box
 };
 

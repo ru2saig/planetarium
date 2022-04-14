@@ -27,7 +27,11 @@ Planet::Planet(string model_path, string texture_path, string info_path, Vector3
   } else {
     std::cerr << "[FILE IO] Successfully opened file: " << info_path << std::endl;
     info.getline(planetName, 256);
-    info.getline(planetInfo, 256);
+
+    cstring planet_info;
+    info.getline(planet_info, 256);
+    planetInfo = Utility::WrapText(planet_info, LINE_LENGTH_SMALL);
+    
     info.getline(mass, 256);
     info.getline(volume, 256);
     info.getline(gravity, 256);
@@ -51,6 +55,9 @@ Planet::Planet(string model_path, string texture_path, string info_path, Vector3
 
 Planet::~Planet()
 {
+  free(planetInfo);
+
+  
   UnloadTexture(texture);
   UnloadModel(model);
 }
@@ -101,46 +108,56 @@ void Planet::DisplayInfo()
   if(planetEntered.hit && !clicked)
     { // only display general info if planet is not clicked
       // TODO: for the information, add a way that auto-formats text, like a text box class
-      DrawTextBox(0, 0, 250, 250, "%s %s\n", planetName, planetInfo);      
+      
+      Utility::DrawTextBox(0, 0, 250, 250, "%s\n%s\n", planetName, planetInfo);      
 
     }
   else if(clicked)
     { // display a lot of info
-      DrawRectangle(0, 0, 250, 400, BLACK); // TODO: add a little transparency, and make it gray
-      DrawRectangleLines(0, 0, 250, 400, WHITE);
 
-      int pos_x = 4;
-      int pos_y = 4;
-      int text_height = 13;
 
-      // I seek for forgivness from thee, oh gods of programming
-      DrawText(mass, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(volume, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(gravity, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(gravity, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(escape_velocity, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(no_of_natural_satellites, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(moment_of_inertia, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(diamteter, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(perihelion, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(aphelion, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(length_of_day, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(avg_temp, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(orbital_period, pos_x, pos_y, text_height, WHITE);
-      pos_y += text_height;
-      DrawText(orbital_vel, pos_x, pos_y, text_height, WHITE);
+
+      Utility::DrawTextBox(0, 0, 250, 400, "Mass: %s 10^24kg\nVolume: %s 10^10 km^3\nGravity: %s m/s^2\nEscape Velocity: %s km/s\nNatural Satellites: %s\nMoment of Inertia: %s I/MR^2\n Diameter: %s km\nPerihelion: %s 10^6 km\nAphelion: %s 10^6 km\nLength of Day: %s hr(s)\nAverage Temperature: %s C\nOrbital Period: %s days\nOrbital Velocity: %s km/s\nMean Orbital Velocity: %s km/s\n"
+		  , mass, volume, gravity, escape_velocity, no_of_natural_satellites, moment_of_inertia, diamteter, perihelion, aphelion, length_of_day, avg_temp, orbital_period, orbital_vel, mean_orbital_vel);
+
+      // DrawRectangle(0, 0, 250, 400, BLACK); // TODO: add a little transparency, and make it gray
+      // DrawRectangleLines(0, 0, 250, 400, WHITE);
+
+      // int pos_x = 4;
+      // int pos_y = 4;
+      // int text_height = 13;
+
+
+
+      
+      // // I seek for forgivness from thee, oh gods of programming
+      // DrawText(mass, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(volume, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(gravity, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(gravity, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(escape_velocity, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(no_of_natural_satellites, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(moment_of_inertia, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(diamteter, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(perihelion, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(aphelion, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(length_of_day, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(avg_temp, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(orbital_period, pos_x, pos_y, text_height, WHITE);
+      // pos_y += text_height;
+      // DrawText(orbital_vel, pos_x, pos_y, text_height, WHITE);
 
     }  
 }
