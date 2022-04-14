@@ -28,8 +28,8 @@ Planet::Planet(string model_path, string texture_path, string info_path, Vector3
     std::cerr << "[FILE IO] Successfully opened file: " << info_path << std::endl;
     info.getline(planetName, 256);
 
-    cstring planet_info;
-    info.getline(planet_info, 256);
+    char planet_info[313];
+    info.getline(planet_info, 313);
     planetInfo = Utility::WrapText(planet_info, LINE_LENGTH_SMALL);
     
     info.getline(mass, 256);

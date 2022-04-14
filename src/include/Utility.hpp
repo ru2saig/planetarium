@@ -33,7 +33,7 @@ namespace Utility {
 	
 	if(i == lineLen)
 	  {
-	    if(std::isalpha(*text))
+	    if(!std::isspace(*text))
 	      {
 		str[idx_last_space] = '\n';
 		i = idx - idx_last_space; // start counting after the characters in the new line

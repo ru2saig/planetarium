@@ -1,5 +1,5 @@
 Mercury
-The smallest planet in our solar system
+The smallest planet in our Solar System. Mercury's proximity to the Sun means that the planet can be only seen near the western horizan after sunset or the eastern horizon before sunrise, usually in twilight. At this time, it may appear as a brigthest star-like object. 
 0.33
 6.083
 3.7
