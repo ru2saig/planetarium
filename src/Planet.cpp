@@ -117,7 +117,7 @@ void Planet::DisplayInfo()
 
 
 
-      Utility::DrawTextBox(0, 0, 250, 400, "Mass: %s 10^24kg\nVolume: %s 10^10 km^3\nGravity: %s m/s^2\nEscape Velocity: %s km/s\nNatural Satellites: %s\nMoment of Inertia: %s I/MR^2\n Diameter: %s km\nPerihelion: %s 10^6 km\nAphelion: %s 10^6 km\nLength of Day: %s hr(s)\nAverage Temperature: %s C\nOrbital Period: %s days\nOrbital Velocity: %s km/s\nMean Orbital Velocity: %s km/s\n"
+      Utility::DrawTextBox(0, 0, 250, 400, "Mass: %s 10^24kg\nVolume: %s 10^10 km^3\nGravity: %s m/s^2\nEscape Velocity: %s km/s\nNatural Satellites: %s\nMoment of Inertia: %s I/MR^2\nDiameter: %s km\nPerihelion: %s 10^6 km\nAphelion: %s 10^6 km\nLength of Day: %s hr(s)\nAverage Temperature: %s C\nOrbital Period: %s days\nOrbital Velocity: %s km/s\nMean Orbital Velocity: %s km/s\n"
 		  , mass, volume, gravity, escape_velocity, no_of_natural_satellites, moment_of_inertia, diamteter, perihelion, aphelion, length_of_day, avg_temp, orbital_period, orbital_vel, mean_orbital_vel);
 
       // DrawRectangle(0, 0, 250, 400, BLACK); // TODO: add a little transparency, and make it gray
