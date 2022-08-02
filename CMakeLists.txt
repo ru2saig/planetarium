@@ -35,12 +35,6 @@ target_link_libraries(${PROJECT_NAME} raylib)
 # TODO: see this! https://stackoverflow.com/a/54285898, or something like https://github.com/raysan5/raylib/blob/master/examples/CMakeLists.txt
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/include) 
 
-# Web Configurations
-if (${PLATFORM} STREQUAL "Web")
-    # Tell Emscripten to build an example.html file.
-    set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
-endif()
-
 # Checks if OSX and links appropriate frameworks (Only required on MacOS)
 if (APPLE)
     target_link_libraries(${PROJECT_NAME} "-framework IOKit")
