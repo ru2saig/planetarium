@@ -1,4 +1,4 @@
-#include "CelestialBody.hpp"
+#include <CelestialBody.hpp>
 #include <raylib.h>
 #include <rlgl.h>
 #include <PVector3.hpp>

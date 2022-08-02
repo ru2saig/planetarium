@@ -19,7 +19,8 @@ Orbit::Orbit(float radius, float period,
 
 void Orbit::Draw()
 {
-  DrawCircle3D(centre, radius, Vector3 { 0.0f, 0.0f, 0.0f }, 0.0f, PINK);
+  // TODO: Er wot about tilted orbits?
+  DrawCircle3D(centre, radius, Vector3 { 1.0f, 0.0f, 0.0f }, 90.0f, PINK);
 }
 
 void Orbit::Update()
@@ -34,7 +35,7 @@ void Orbit::Update()
 Vector3 Orbit::Evaluate()
 {
   float x = radius*std::cos(this->progress);
-  float y = radius*std::sin(this->progress);
+  float z = radius*std::sin(this->progress);
 
-  return Vector3 { x, y, 0.0f};
+  return Vector3 { x, 0.0f, z};
 }
