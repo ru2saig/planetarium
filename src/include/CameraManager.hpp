@@ -6,7 +6,7 @@
  * Methods
 *************************************************************/
 #pragma once
-#include <rcamera.h>
+#include <raylib.h>
 #include <PVector3.hpp>
 #include <CelestialBody.hpp>
 #include <memory>
@@ -23,6 +23,7 @@ public:
   static CameraManager& instance();  
   void Update();
   Camera getCamera() { return *cameraPtr; }
+  Camera* getCameraPtr() { return cameraPtr; }
   void resetCamera();
   void setTarget(CelestialBody*); // sets target to follow
   void unsetTarget(); // sets target to nullptr

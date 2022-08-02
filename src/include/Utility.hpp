@@ -15,6 +15,21 @@ const int LINE_LENGTH_LARGE = 57;
 
 namespace Utility {
   
+  typedef struct {   
+    Vector3 position;
+    Color color;
+    Vector4 ambientStrength;
+    
+    // Shader locations
+    int positionLoc;
+    int colorLoc;
+    // int attenuationLoc;
+
+  } Light;
+
+
+
+  
   inline char* WrapText(const char* text, int lineLen)
   { 
     // return an malloced array of such wrapped text? or make a new buffer

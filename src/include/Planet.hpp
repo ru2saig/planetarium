@@ -13,9 +13,10 @@ class Planet : public CelestialBody
 public:
   Model model;
   Texture2D texture;
-  
+
+  Planet() = default;
   Planet(string, string, string, Vector3, float, float);
-  ~Planet();
+  virtual ~Planet();
   
   void Draw() override;
   void Update() override;
@@ -28,7 +29,7 @@ public:
   static void toggleShowOrbit() { Planet::showOrbit = !Planet::showOrbit; }
   static void toggleShowHitBox() { Planet::showHitBox = !Planet::showHitBox; }
   
-private:
+protected:
   static float BASE_PLANET_RADIUS;
   static bool showOrbit;
   static bool showHitBox;
