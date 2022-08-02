@@ -9,7 +9,7 @@
 #include <rcamera.h>
 #include <PVector3.hpp>
 #include <CelestialBody.hpp>
-
+#include <memory>
 
 
 enum class CameraModes {

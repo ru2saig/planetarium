@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include <CameraManager.hpp>
+#include <memory>
 #include <rcamera.h>
 #include <PVector3.hpp>
 #include <CelestialBody.hpp>
@@ -35,7 +36,7 @@ void CameraManager::resetCamera()
 }
 
 
-void CameraManager::setTarget(CelestialBody *body)
+void CameraManager::setTarget(CelestialBody* body)
 {
   resetCamera();
   SetCameraMode(*cameraPtr, CAMERA_CUSTOM);
