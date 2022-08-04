@@ -12,6 +12,9 @@ float Planet::BASE_PLANET_RADIUS = 10.0f;
 bool Planet::showOrbit = false;
 bool Planet::showHitBox = false;
 
+
+
+
 Planet::Planet(string model_path, string texture_path, string info_path, Vector3 pos,
                float radius, float orbitPeriod)
 {
@@ -48,9 +51,38 @@ Planet::Planet(string model_path, string texture_path, string info_path, Vector3
     info.getline(mean_orbital_vel, 256);
   }  
   
-  model = LoadModel(model_path);
-  texture = LoadTexture(texture_path);
-  model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+  model = LoadModel("res/models/earth/earthmesh.obj");
+  //model = LoadModel(model_path);
+
+  // load the default planet shader
+  // TODO: Since all the planets (except earth) use this, why not make this the default one? Perhaps a singleton?
+  shader = LoadShader("res/shaders/planet-default.vs", "res/shaders/planet-default.fs");
+  shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
+  
+  Utility::Light sunLight = { (Vector3) { 2, 1, 2}, WHITE }; 
+  sunLight.ambientStrength = (Vector4) { 0.01, 0.01, 0.01, 1.0};
+  sunLight.colorLoc = GetShaderLocation(shader, "sun.color");
+  sunLight.positionLoc = GetShaderLocation(shader, "sun.position");
+
+  
+  float position[3] = { sunLight.position.x, sunLight.position.y, sunLight.position.z };
+  SetShaderValue(shader, sunLight.positionLoc, position, SHADER_UNIFORM_VEC3);
+
+  float color[4] = { (float)sunLight.color.r/(float)255, (float)sunLight.color.g/(float)255, 
+		     (float)sunLight.color.b/(float)255, (float)sunLight.color.a/(float)255 };
+  SetShaderValue(shader,  sunLight.colorLoc, color, SHADER_UNIFORM_VEC4);
+  // Ambient light level
+  int ambientLoc = GetShaderLocation(shader, "sun.ambientStrength");
+  float ambientStrength[4] = { sunLight.ambientStrength.x, sunLight.ambientStrength.y, sunLight.ambientStrength.z, sunLight.ambientStrength.w};
+  SetShaderValue(shader, ambientLoc, ambientStrength, SHADER_UNIFORM_VEC4);
+
+  // set the shader as the current material shader
+  model.materials[0].shader = shader;
+  // load and set the textures
+  model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = LoadTexture(texture_path);
+
+  
+  
 }
 
 Planet::~Planet()
@@ -58,8 +90,8 @@ Planet::~Planet()
   free(planetInfo);
 
   
-  UnloadTexture(texture);
   UnloadModel(model);
+  UnloadShader(shader);
 }
 
 void Planet::Draw()
@@ -73,6 +105,26 @@ void Planet::Draw()
   DrawModel(this->model, this->pos, this->radius * 1.5, WHITE);
 }
 
+
+void Planet::Update(Camera* camera) 
+{
+
+  float cameraPos[3] { camera->position.x, camera->position.y, camera->position.z };
+  SetShaderValue(shader,  GetShaderLocation(shader, "viewPos"), cameraPos, SHADER_UNIFORM_VEC3);
+  
+  pos = orbit.Evaluate();
+  orbit.Update();
+  // TODO: is it possible to get the radius of the sphere from mesh data?
+  
+  // do physics here
+  // what physics?
+  // rotation on axis (how?) model.transform <- MatrixRotateXYZ((Vector3){  });
+  // rotation around the sun (how?)
+  // pos = pos + (Vector3) {0.1f, 0.0f, 0.0f};
+}
+
+
+
 void Planet::Update() 
 {
   pos = orbit.Evaluate();
@@ -85,6 +137,8 @@ void Planet::Update()
   // rotation around the sun (how?)
   // pos = pos + (Vector3) {0.1f, 0.0f, 0.0f};
 }
+
+
 
 // check if the pointer entered the vicinity and the mesh itself
 void Planet::CheckPointer(Ray mouse)

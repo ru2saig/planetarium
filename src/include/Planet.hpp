@@ -2,6 +2,7 @@
 #include <raylib.h>
 #include <Orbit.hpp>
 #include <CelestialBody.hpp>
+#include <Utility.hpp>
 typedef char cstring[256]; // TODO: make the information thing more optimized for space
 typedef const char* string;
 
@@ -11,15 +12,13 @@ typedef const char* string;
 class Planet : public CelestialBody
 {
 public:
-  Model model;
-  Texture2D texture;
-
   Planet() = default;
   Planet(string, string, string, Vector3, float, float);
   virtual ~Planet();
   
   void Draw() override;
   void Update() override;
+  void Update(Camera*);
   void DisplayInfo() override;
   void CheckPointer(Ray);
   
@@ -34,6 +33,9 @@ protected:
   static bool showOrbit;
   static bool showHitBox;
 
+  Model model;
+  Shader shader;
+  
   Orbit orbit;
   RayCollision planetEntered; // when pointer enters box
 
