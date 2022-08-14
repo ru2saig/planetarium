@@ -14,7 +14,6 @@ bool Planet::showHitBox = false;
 
 
 
-
 Planet::Planet(string model_path, string texture_path, string info_path, Vector3 pos,
                float radius, float orbitPeriod)
 {
