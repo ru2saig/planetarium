@@ -2,8 +2,8 @@
  * Utility: a simple header only library containing utility functions 
  */
 #pragma once
-
 #include <raylib.h>
+#include <rlgl.h>
 #include <cstdio>
 #include <cstdarg>
 #include <cstdlib>
@@ -26,8 +26,6 @@ namespace Utility {
     // int attenuationLoc;
 
   } Light;
-
-
 
   
   inline char* WrapText(const char* text, int lineLen)

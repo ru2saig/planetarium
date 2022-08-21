@@ -1,4 +1,5 @@
 #include <CelestialBody.hpp>
+#include <Skybox.hpp>
 #include <raylib.h>
 #include <rlgl.h>
 #include <PVector3.hpp>
@@ -18,6 +19,7 @@ int main(void)
   Ray ray;
 
   CameraManager cm = CameraManager::instance();
+  Skybox skybox = Skybox::instance();
   
   // planets
   // 1 pixel = 100,000 km (way to large)
@@ -63,8 +65,8 @@ int main(void)
 	    cm.setTarget(planet->get());
 	}
 
-      if(sun.getClicked())
-	cm.setTarget(&sun);
+      //      if(sun.getClicked())
+      //	cm.setTarget(&sun);
       
       if (IsKeyPressed(KEY_Q))
 	  cm.unsetTarget();
@@ -79,14 +81,15 @@ int main(void)
       // Draw
       BeginDrawing();
       BeginMode3D(cm.getCamera());
-       
       ClearBackground(BLACK);
 
+      skybox.Draw();
+      
       // draw all the planets
       for(auto& planet : planets)
 	planet->Draw();
       
-      sun.Draw();
+      //      sun.Draw();
 
       if(showGrid)
 	DrawGrid(100, 5.0f);
