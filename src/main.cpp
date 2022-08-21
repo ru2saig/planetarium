@@ -20,6 +20,36 @@ int main(void)
 
   CameraManager cm = CameraManager::instance();
   Skybox skybox = Skybox::instance();
+
+    // setting up the camera flare shader
+  Shader cameraFlarePP = LoadShader(0, "res/shaders/sunflare.fs"); // eh-he
+
+  // set the noise texture
+  int noiseLoc = GetShaderLocation(cameraFlarePP, "noiseTex");
+  Texture noiseTexture = LoadTexture("res/textures/noise.png");
+
+  // set the inital sun position
+  int sunPosLoc = GetShaderLocation(cameraFlarePP, "sunPos");
+  float sunPos[2] = {GetScreenWidth()/2.0f, GetScreenHeight()/2.0f};
+  SetShaderValue(cameraFlarePP, sunPosLoc, sunPos, SHADER_UNIFORM_VEC2);
+  
+  // screen resolution
+  int screenResLoc = GetShaderLocation(cameraFlarePP, "screenRes");
+  float res[2] = { static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight()) };
+  SetShaderValue(cameraFlarePP, screenResLoc, res, SHADER_UNIFORM_VEC2);
+  
+  // set the resolution of said noise texture
+  int noiseResLoc = GetShaderLocation(cameraFlarePP, "noiseResolution");
+  float noiseRes[2] = { static_cast<float>(noiseTexture.width), static_cast<float>(noiseTexture.height) };
+  SetShaderValue(cameraFlarePP, noiseResLoc, noiseRes, SHADER_UNIFORM_VEC2);
+
+  // the sun radius
+  int sunRadiusLoc = GetShaderLocation(cameraFlarePP, "radius");
+  float radius[1] = { 16.0 };
+  SetShaderValue(cameraFlarePP, sunRadiusLoc, radius, SHADER_UNIFORM_FLOAT);
+  
+  RenderTexture2D target = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
+
   
   // planets
   // 1 pixel = 100,000 km (way to large)
@@ -49,9 +79,28 @@ int main(void)
     {
       // Update
       cm.Update();
+
+      // TODO: smol bug, appears in the middle of the screen
+      // get the sun's screen coords, and send em to the shader
+      Vector2 sunScreenCoords = GetWorldToScreen(Vector3Zero(), cm.getCamera());
+      if(!std::isnan(sunScreenCoords.x))
+	sunPos[0] = sunScreenCoords.x;
+
+      if(!std::isnan(sunScreenCoords.y))
+	sunPos[1] = GetScreenHeight() - sunScreenCoords.y;
+    
+      SetShaderValue(cameraFlarePP, sunPosLoc, sunPos, SHADER_UNIFORM_VEC2);
+
+      // make the size of the sun proportionate to the distance
+      Vector3 camPos = cm.getCamera().position;
+      float distFromSun = std::sqrt(camPos.x*camPos.x + camPos.y+camPos.y + camPos.z*camPos.z);
+
+      radius[0] = std::min(300.0f, std::max(16.0f, distFromSun/10.0f));
+    
+      SetShaderValue(cameraFlarePP, sunRadiusLoc, radius, SHADER_UNIFORM_FLOAT);
+
       
       ray = GetMouseRay(GetMousePosition(), cm.getCamera());
-
       // update celestial bodies
       sun.CheckPointer(ray);
       sun.Update();      
@@ -79,42 +128,52 @@ int main(void)
 
       
       // Draw
-      BeginDrawing();
-      BeginMode3D(cm.getCamera());
+      BeginTextureMode(target);
       ClearBackground(BLACK);
-
-      skybox.Draw();
       
+      BeginMode3D(cm.getCamera());
+      skybox.Draw();
+
       // draw all the planets
       for(auto& planet : planets)
 	planet->Draw();
       
       //      sun.Draw();
-
-      if(showGrid)
+         if(showGrid)
 	DrawGrid(100, 5.0f);
       
       EndMode3D();
+      EndTextureMode();
 
-      // better place to put this?
+      // post processing effects, mainly the camera flare and the Sun
+      BeginDrawing();
+      ClearBackground(BLACK);
 
+      BeginShaderMode(cameraFlarePP); // eh-he
+      SetShaderValueTexture(cameraFlarePP, noiseLoc, noiseTexture);
+      DrawTextureRec(target.texture, (Rectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height }, (Vector2){ 0, 0 }, WHITE);
+      EndShaderMode();
+
+      // Draw text and 2D stuff here
+      if(showGrid)
+	DrawFPS(10, 10);
+
+         
       for(auto& planet: planets)
 	planet->DisplayInfo();
-
-      // mercury.DisplayInfo();
-      // venus.DisplayInfo();
-      // earth.DisplayInfo();
-      // mars.DisplayInfo();
-      // jupiter.DisplayInfo();
-      // saturn.DisplayInfo();
-      // uranus.DisplayInfo();
-      // neptune.DisplayInfo();
       sun.DisplayInfo();
-      
+
+
+            
       EndDrawing();
       
     }
 
+
+  UnloadShader(cameraFlarePP);
+  UnloadTexture(noiseTexture);
+
+  
   return 0;
 }
 

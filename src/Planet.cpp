@@ -59,7 +59,7 @@ Planet::Planet(string model_path, string texture_path, string info_path, Vector3
   shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
   
   Utility::Light sunLight = { (Vector3) { 2, 1, 2}, WHITE }; 
-  sunLight.ambientStrength = (Vector4) { 0.01, 0.01, 0.01, 1.0};
+  sunLight.ambientStrength = (Vector4) { 0.001, 0.001, 0.001, 1.0};
   sunLight.colorLoc = GetShaderLocation(shader, "sun.color");
   sunLight.positionLoc = GetShaderLocation(shader, "sun.position");
 
