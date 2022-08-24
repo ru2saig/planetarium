@@ -1,7 +1,7 @@
 /*************************************************************
  * CameraManager - singleton (for now) class that manages a custom camera tailerd fordward
                    planetarium
- * Uses rcamera, from raylib with custom methods and variables
+
  * Features -
  * Methods
 *************************************************************/
@@ -11,11 +11,6 @@
 #include <CelestialBody.hpp>
 #include <memory>
 
-
-enum class CameraModes {
-  FREE_ROAM = 0, // point and click roam the universe
-  TOUR, // tour mode, follow the path
-};
 
 class CameraManager
 {
@@ -33,4 +28,5 @@ private:
   CameraManager();
   CelestialBody* target;
   Camera* cameraPtr;
+  
 };   
