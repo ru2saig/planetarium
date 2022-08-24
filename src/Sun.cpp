@@ -6,9 +6,6 @@
 #include <iostream>
 using namespace VMath;
 
-// TODO: How to set other materials? like emission
-//       How to add more models, with their own textures
-
 Sun::Sun(string model_path, string texture_path)
 {
   this->radius = 100.0f;

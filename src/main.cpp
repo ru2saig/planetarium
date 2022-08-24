@@ -71,7 +71,7 @@ int main(void)
   // sun
   Sun sun { "res/models/sun/sunBuilt.obj", "res/textures/sun/2k_sun.png" }; // the sun is at the centre of the Unierse. Galieo rollin' in his grave
 
-  bool showGrid = false;
+  bool debugMenu = false;
 
   SetTargetFPS(60);               // target 60 fps
   // Main game loop
@@ -102,9 +102,11 @@ int main(void)
       
       ray = GetMouseRay(GetMousePosition(), cm.getCamera());
       // update celestial bodies
-      sun.CheckPointer(ray);
-      sun.Update();      
 
+
+      if(IsKeyPressed(KEY_F3))
+	 debugMenu = !debugMenu;
+      
       for(std::vector<std::unique_ptr<Planet>>::iterator planet = planets.begin(); planet != planets.end(); planet++)
 	{
 	  planet->get()->CheckPointer(ray);
@@ -114,17 +116,15 @@ int main(void)
 	    cm.setTarget(planet->get());
 	}
 
-      //      if(sun.getClicked())
-      //	cm.setTarget(&sun);
+
+      if(IsKeyPressed(KEY_Q))
+	cm.unsetTarget();
       
-      if (IsKeyPressed(KEY_Q))
-	  cm.unsetTarget();
-      if(IsKeyPressed(KEY_D))
-	Planet::toggleShowHitBox();
-      if(IsKeyPressed(KEY_O))
-	Planet::toggleShowOrbit();
-      if(IsKeyPressed(KEY_F3))
-	showGrid = !showGrid;
+      if(debugMenu)
+	{
+	  Planet::toggleShowOrbit();
+	  Planet::toggleShowHitBox();
+	}
 
       
       // Draw
@@ -138,8 +138,7 @@ int main(void)
       for(auto& planet : planets)
 	planet->Draw();
       
-      //      sun.Draw();
-         if(showGrid)
+      if(debugMenu)
 	DrawGrid(100, 5.0f);
       
       EndMode3D();
@@ -155,7 +154,7 @@ int main(void)
       EndShaderMode();
 
       // Draw text and 2D stuff here
-      if(showGrid)
+      if(debugMenu)
 	DrawFPS(10, 10);
 
          
