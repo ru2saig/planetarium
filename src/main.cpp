@@ -1,3 +1,4 @@
+#include <iostream>
 #include <raylib.h>
 #include <rlgl.h>
 #include <CelestialBody.hpp>
@@ -11,47 +12,28 @@
 #include <vector>
 #include <memory>
 #include <raygui.hpp>
-
-typedef struct {
-    int ListView000ScrollIndex;
-    int ListView000Active;
-
-    Rectangle layoutRecs[2];
-
-    // Custom state variables (depend on development software)
-    // NOTE: This variables should be added manually if required
-
-} GuiLayoutNameState;
-
-GuiLayoutNameState InitGuiLayoutName(void)
-{
-    GuiLayoutNameState state = { 0 };
-
-    state.ListView000ScrollIndex = 0;
-    state.ListView000Active = 0;
-
-    state.layoutRecs[0] = (Rectangle){ 500, 500, 165, 217 };
-    state.layoutRecs[1] = (Rectangle){ 500, 500, 120, 24 };
-
-    // Custom variables initialization
-
-    return state;
-}
-
-void GuiLayoutName(GuiLayoutNameState *state)
-{
-    state->ListView000Active = GuiListView(state->layoutRecs[0], "MERCURY;VENUS;EARTH;MARS;JUPITER;SATURN;URANUS;NEPTUNE", &state->ListView000ScrollIndex, state->ListView000Active);
-    GuiLabel(state->layoutRecs[1], "PLANETS :");
-}
-
-
+#include <Navigation.hpp>
 using namespace VMath;
+// space made accessiable
+
+
+enum State
+{
+  LOADING = 0, 
+  START,
+  PLAYING
+};
+
 
 int main(void)
 {
   // initialize
   Window window;
   Ray ray;
+
+  State planetariumState = State::LOADING;
+  
+  GuiLoadStyle("res/default.rgs");
 
   CameraManager cm = CameraManager::instance();
   Skybox skybox = Skybox::instance();
@@ -109,102 +91,138 @@ int main(void)
 
 
   // setup layout stuff
-  GuiLayoutNameState state = InitGuiLayoutName();
-
+  planetNavigationList nav = planetNavigationList();
+  
   
   SetTargetFPS(60);               // target 60 fps
+
+  planetariumState = State::START;
+  
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-      // Update
-      cm.Update();
 
-      // TODO: smol bug, appears in the middle of the screen
-      // get the sun's screen coords, and send em to the shader
-      Vector2 sunScreenCoords = GetWorldToScreen(Vector3Zero(), cm.getCamera());
-      if(!std::isnan(sunScreenCoords.x))
-	sunPos[0] = sunScreenCoords.x;
 
-      if(!std::isnan(sunScreenCoords.y))
-	sunPos[1] = GetScreenHeight() - sunScreenCoords.y;
-    
-      SetShaderValue(cameraFlarePP, sunPosLoc, sunPos, SHADER_UNIFORM_VEC2);
-
-      // make the size of the sun proportionate to the distance
-      Vector3 camPos = cm.getCamera().position;
-      float distFromSun = std::sqrt(camPos.x*camPos.x + camPos.y+camPos.y + camPos.z*camPos.z);
-
-      radius[0] = std::min(300.0f, std::max(16.0f, distFromSun/10.0f));
-    
-      SetShaderValue(cameraFlarePP, sunRadiusLoc, radius, SHADER_UNIFORM_FLOAT);
-
-      
-      ray = GetMouseRay(GetMousePosition(), cm.getCamera());
-      // update celestial bodies
-
-      if(IsKeyPressed(KEY_F3))
-	 debugMenu = !debugMenu;
-      
-      for(std::vector<std::unique_ptr<Planet>>::iterator planet = planets.begin(); planet != planets.end(); planet++)
+      switch(planetariumState)
 	{
-	  planet->get()->CheckPointer(ray);
-	  planet->get()->Update();
 
-	  if(planet->get()->getClicked())
-	    cm.setTarget(planet->get());
-	}
+	case(State::PLAYING):
+	  {
 
+	    // Update
+	    cm.Update();
 
-      if(IsKeyPressed(KEY_Q))
-	cm.unsetTarget();
+	    // TODO: smol bug, appears in the middle of the screen
+	    // get the sun's screen coords, and send em to the shader
+	    Vector2 sunScreenCoords = GetWorldToScreen(Vector3Zero(), cm.getCamera());
+	    if(!std::isnan(sunScreenCoords.x))
+	      sunPos[0] = sunScreenCoords.x;
+
+	    if(!std::isnan(sunScreenCoords.y))
+	      sunPos[1] = GetScreenHeight() - sunScreenCoords.y;
+    
+	    SetShaderValue(cameraFlarePP, sunPosLoc, sunPos, SHADER_UNIFORM_VEC2);
+
+	    // make the size of the sun proportionate to the distance
+	    Vector3 camPos = cm.getCamera().position;
+	    float distFromSun = std::sqrt(camPos.x*camPos.x + camPos.y+camPos.y + camPos.z*camPos.z);
+
+	    radius[0] = std::min(300.0f, std::max(16.0f, distFromSun/10.0f));
+    
+	    SetShaderValue(cameraFlarePP, sunRadiusLoc, radius, SHADER_UNIFORM_FLOAT);
+
       
-      if(debugMenu)
-	{
-	  Planet::toggleShowOrbit();
-	  Planet::toggleShowHitBox();
-	}
+	    //ray = GetMouseRay(GetMousePosition(), cm.getCamera());
+	    // update celestial bodies
+
+	    if(IsKeyPressed(KEY_F3))
+	      debugMenu = !debugMenu;
+      
+	    for(std::vector<std::unique_ptr<Planet>>::iterator planet = planets.begin(); planet != planets.end(); planet++)
+	      {
+		//  planet->get()->CheckPointer(ray);
+		planet->get()->Update();
+		//if(planet->get()->getClicked())
+		//  cm.setTarget(planet->get());
+	      }
+      
+
+	    if(nav.changedOption())
+	      {
+		if(nav.getOption())
+		  cm.setTarget(planets[nav.getOption() - 1].get());
+	      }
+	    
+	    if(IsKeyPressed(KEY_Q))
+	      {
+		nav.setFreeRoam();
+		cm.unsetTarget();
+	      }
+      
+	    if(debugMenu)
+	      {
+		Planet::toggleShowOrbit();
+		Planet::toggleShowHitBox();
+	      }
 
       
-      // Draw
-      BeginTextureMode(target);
-      ClearBackground(BLACK);
+	    // Draw
+	    BeginTextureMode(target);
+	    ClearBackground(BLACK);
       
-      BeginMode3D(cm.getCamera());
-      skybox.Draw();
+	    BeginMode3D(cm.getCamera());
+	    skybox.Draw();
 
-      // draw all the planets
-      for(auto& planet : planets)
-	planet->Draw();
+	    // draw all the planets
+	    for(auto& planet : planets)
+	      planet->Draw();
       
-      if(debugMenu)
-	DrawGrid(100, 5.0f);
+	    if(debugMenu)
+	      DrawGrid(100, 5.0f);
       
-      EndMode3D();
-      EndTextureMode();
+	    EndMode3D();
+	    EndTextureMode();
 
-      // post processing effects, mainly the camera flare and the Sun
-      BeginDrawing();
-      ClearBackground(BLACK);
+	    // post processing effects, mainly the camera flare and the Sun
+	    BeginDrawing();
+	    ClearBackground(BLACK);
 
-      BeginShaderMode(cameraFlarePP); // eh-he
-      SetShaderValueTexture(cameraFlarePP, noiseLoc, noiseTexture);
-      DrawTextureRec(target.texture, (Rectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height }, (Vector2){ 0, 0 }, WHITE);
-      EndShaderMode();
+	    BeginShaderMode(cameraFlarePP); // eh-he
+	    SetShaderValueTexture(cameraFlarePP, noiseLoc, noiseTexture);
+	    DrawTextureRec(target.texture, (Rectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height }, (Vector2){ 0, 0 }, WHITE);
+	    EndShaderMode();
 
-      // Draw text and 2D stuff here
-      if(debugMenu)
-	DrawFPS(10, 10);
+	    // Draw text and 2D stuff here
+	    if(debugMenu)
+	      DrawFPS(10, 10);
 
          
-      for(auto& planet: planets)
-	planet->DisplayInfo();
-      sun.DisplayInfo();
+	    // for(auto& planet: planets)
+	    // 	planet->DisplayInfo();
+	    // sun.DisplayInfo();
 
-      
-
+	    // draw the layouts
+	    nav.DrawControl();
 
             
-      EndDrawing();
+	    EndDrawing();
+	    break;
+	  }
+	case(State::START):
+	  {
+	    if(IsKeyPressed(KEY_ENTER))
+	      planetariumState = State::PLAYING;
+
+	    BeginDrawing();
+	    ClearBackground(BLACK);
+	    EndDrawing();
+
+	    
+	    break;
+	  }
+      
+	}
+      
       
     }
 

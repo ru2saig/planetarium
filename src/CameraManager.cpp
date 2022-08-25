@@ -45,12 +45,8 @@ void CameraManager::Update()//Camera *camera)
 
 
       if(IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT)) {
-	EnableCursor();
-	lastMousePos = GetMousePosition();
-
 	// targeting in here?
-	
-      } else { // 
+
 	DisableCursor();
 	Vector2 currentMousePos = GetMousePosition();
 	
@@ -81,7 +77,12 @@ void CameraManager::Update()//Camera *camera)
 	  sin(DEG2RAD * yaw) * cos(DEG2RAD * pitch) };
 
         cameraFront = Vector3Normalize(direction);
+      
+      } else { //
+	EnableCursor();
+	lastMousePos = GetMousePosition();
       }
+
       
       
       cameraPtr->target = cameraPtr->position + cameraFront;

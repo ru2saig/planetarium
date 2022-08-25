@@ -156,7 +156,7 @@ void Planet::CheckPointer(Ray mouse)
 }
 
 // display info in a panel near the planet
-void Planet::DisplayInfo()
+void Planet::DisplayInfo() // TODO: Use RAGUI's controls for this stuff!
 {
   if(planetEntered.hit && !clicked)
     { // only display general info if planet is not clicked

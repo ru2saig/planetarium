@@ -557,7 +557,7 @@ typedef enum {
     ICON_254                      = 254,
     ICON_255                      = 255,
 } GuiIconName;
-#endif
+
 
 
 #if defined(__cplusplus)
@@ -926,3 +926,4 @@ static Vector3 ConvertHSVtoRGB(Vector3 hsv);                    // Convert color
 static Vector3 ConvertRGBtoHSV(Vector3 rgb);                    // Convert color data from RGB to HSV
 
 static int GuiScrollBar(Rectangle bounds, int value, int minValue, int maxValue);   // Scroll bar control, used by GuiScrollPanel()
+#endif
