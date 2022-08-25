@@ -1,19 +1,17 @@
 TODO -*- mode: org; -*-
 #+TITLE: TODO Planetarium
 
-* TODO Camera, hack on that for a while
-_Specifications_:
-- WASD/ARROW keys for movement
-- Use mouse to look around
-- RIP it off  from LearnOpengl's camera implmentation, look at the source code: https://github.com/raysan5/raylib/blob/master/src/rcamera.h#L280 right here
-- Make sure the targeting thing works, all fine. Custom updatefunction, then
-  
+
+* Features To-Add
+** Positions of the planets like how to sun camera flare is done, as a bright star in the sky?
+** TODO Accurate positoins of the planets
+** TODO GUI for the planets
+
+
 * TODO Translations
 - Telugu
 - Hindi
 - etc.
-* TODO Look into camera flare shaders, and see how to implment them (test-bed, first ofc)
-* TODO Figure out why the planet models are invertes with Prabhas, why the specular is inverted? And why the other model works fine?
 * TODO Clean up/Refactor some of that code. Reread the whole thing, and mark the changes required:
 - Not really happy with how a new shader needs to be created for each Planet instance. Make the member variable overloadable? So Earth won't be affected much. Make the shader/model a class? Go with a component architecture, like Unity? Hybrid architecture? Easier to do, and can let the class unload em
 - sunLight, make it an instance? But how to remove that colorLoc and ambientLoc parts?
@@ -22,13 +20,4 @@ _Specifications_:
   http://planetpixelemporium.com/mars.html from this website, research into how it's done, and try it!
   But not all the planets have a normal map, they don't make sense for the gas giants. A derived class for that?
   - Need 2 classes, 1 for gas giants, 1 for rocky planets (normal maps)
-* DONE Use a unique_ptr for the planets,
-
-* DONE Make a new derviation of a plant: Earth, as it has shaders
-
 * TODO think about how moons would work?
-
-* TODO Get the skybox loaded and ready
-- Use a python script, and a slightly different algorithm for the size? Mapping the nearness to the size of the star?
-- Possible to make the star size changed, instead of just a single pixel bright
-

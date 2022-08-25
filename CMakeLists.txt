@@ -23,6 +23,7 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
   endif()
 endif()
 
+
 # Our Project
 # obtain all the source files
 file(GLOB SOURCES "src/*.cpp")

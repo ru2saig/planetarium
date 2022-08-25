@@ -10,6 +10,7 @@
 #include <CameraManager.hpp>
 #include <vector>
 #include <memory>
+#include <raygui.h>
 using namespace VMath;
 
 int main(void)
@@ -50,6 +51,9 @@ int main(void)
   
   RenderTexture2D target = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
 
+  int index = 0;
+  int val = 0;
+  GuiListView(Rectangle { 0, 0, 100, 100}, "Hello;there;hee", &index, val);
   
   // planets
   // 1 pixel = 100,000 km (way to large)
