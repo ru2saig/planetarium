@@ -12,8 +12,8 @@ Earth::Earth(Camera* camera)
   this->camera = camera;
   this->radius = 10.0f;
   this->clicked = false;
-  this->pos =  Vector3 {500.0f ,0.0, 0.0}; // TODO This will cause concerns,
-  this->orbit = Orbit(this->pos.x, 600.0, Vector3 { 0.0f, 0.0f, 0.0f });
+  this->pos =  Vector3 {5000.0f ,0.0, 0.0}; // TODO This will cause concerns,
+  this->orbit = Orbit(this->pos.x, 6000.0, Vector3 { 0.0f, 0.0f, 0.0f });
   
   this->model = LoadModel("res/models/earth/earthmesh.obj");
   shader = LoadShader("res/shaders/planet-default.vs", "res/shaders/earth.fs");
