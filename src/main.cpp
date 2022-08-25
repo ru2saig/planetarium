@@ -1,7 +1,7 @@
-#include <CelestialBody.hpp>
-#include <Skybox.hpp>
 #include <raylib.h>
 #include <rlgl.h>
+#include <CelestialBody.hpp>
+#include <Skybox.hpp>
 #include <PVector3.hpp>
 #include <Planet.hpp>
 #include <Earth.hpp>
@@ -10,7 +10,41 @@
 #include <CameraManager.hpp>
 #include <vector>
 #include <memory>
-#include <raygui.h>
+#include <raygui.hpp>
+
+typedef struct {
+    int ListView000ScrollIndex;
+    int ListView000Active;
+
+    Rectangle layoutRecs[2];
+
+    // Custom state variables (depend on development software)
+    // NOTE: This variables should be added manually if required
+
+} GuiLayoutNameState;
+
+GuiLayoutNameState InitGuiLayoutName(void)
+{
+    GuiLayoutNameState state = { 0 };
+
+    state.ListView000ScrollIndex = 0;
+    state.ListView000Active = 0;
+
+    state.layoutRecs[0] = (Rectangle){ 500, 500, 165, 217 };
+    state.layoutRecs[1] = (Rectangle){ 500, 500, 120, 24 };
+
+    // Custom variables initialization
+
+    return state;
+}
+
+void GuiLayoutName(GuiLayoutNameState *state)
+{
+    state->ListView000Active = GuiListView(state->layoutRecs[0], "MERCURY;VENUS;EARTH;MARS;JUPITER;SATURN;URANUS;NEPTUNE", &state->ListView000ScrollIndex, state->ListView000Active);
+    GuiLabel(state->layoutRecs[1], "PLANETS :");
+}
+
+
 using namespace VMath;
 
 int main(void)
@@ -51,10 +85,6 @@ int main(void)
   
   RenderTexture2D target = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
 
-  int index = 0;
-  int val = 0;
-  GuiListView(Rectangle { 0, 0, 100, 100}, "Hello;there;hee", &index, val);
-  
   // planets
   // 1 pixel = 100,000 km (way to large)
   // all planets are set to scale in reference to the Earth
@@ -77,6 +107,11 @@ int main(void)
 
   bool debugMenu = false;
 
+
+  // setup layout stuff
+  GuiLayoutNameState state = InitGuiLayoutName();
+
+  
   SetTargetFPS(60);               // target 60 fps
   // Main game loop
   while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -106,7 +141,6 @@ int main(void)
       
       ray = GetMouseRay(GetMousePosition(), cm.getCamera());
       // update celestial bodies
-
 
       if(IsKeyPressed(KEY_F3))
 	 debugMenu = !debugMenu;
@@ -165,6 +199,8 @@ int main(void)
       for(auto& planet: planets)
 	planet->DisplayInfo();
       sun.DisplayInfo();
+
+      
 
 
             

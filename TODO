@@ -6,7 +6,9 @@ TODO -*- mode: org; -*-
 ** Positions of the planets like how to sun camera flare is done, as a bright star in the sky?
 ** TODO Accurate positoins of the planets
 ** TODO GUI for the planets
-
+** TODO Sunflare issues
+- 2 suns!
+- Sun is drawn over planets (how to compute occlusion? Uniforms?)
 
 * TODO Translations
 - Telugu
