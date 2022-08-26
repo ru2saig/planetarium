@@ -89,7 +89,7 @@ namespace Utility {
     vsprintf(buf, format, args);
 
     //newbuf = WrapText(buf, LINE_LENGTH_SMALL);
-    DrawTextEx(globalFonts.returnCurrentFont(), buf, (Vector2) { x+4.0f, y+4.0f }, 20, 0, WHITE);
+    DrawTextEx(globalFonts.returnCurrentFont(), buf, (Vector2) { x+4.0f, y+4.0f }, globalFonts.getFontSize(), globalFonts.getFontSpacing(), WHITE);
     
     //free(newbuf);
   

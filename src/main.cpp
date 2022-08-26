@@ -1,3 +1,4 @@
+#include "GUIUtil.hpp"
 #include <iostream>
 #include <raylib.h>
 #include <rlgl.h>
@@ -32,6 +33,7 @@ int main(void)
   Ray ray;
 
   State planetariumState = State::LOADING;
+  GlobalFonts::GlobalFontInstance();
   
   GuiLoadStyle("res/default.rgs");
 

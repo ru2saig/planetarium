@@ -166,12 +166,12 @@ GlobalFonts::GlobalFonts()
 
   // Load font containing all the provided codepoint glyphs
   // A texture font atlas is automatically generated
-  hi = LoadFontEx("res/fonts/Anek-Devanagari-Regular.ttf", 21, codepointsNoDups, codepointsNoDupsCount);
+  hi = LoadFontEx("res/fonts/Anek-Devanagari-Regular.ttf", 47, codepointsNoDups, codepointsNoDupsCount);
 
 
     // Get codepoints from text
   codepointCount = 0;
-  codepoints = LoadCodepoints(engText, &codepointCount);
+  codepoints = LoadCodepoints(telText, &codepointCount);
 
   // Removed duplicate codepoints to generate smaller font atlas
   codepointsNoDupsCount = 0;
@@ -180,12 +180,12 @@ GlobalFonts::GlobalFonts()
 
   // Load font containing all the provided codepoint glyphs
   // A texture font atlas is automatically generated
-  tel = LoadFontEx("res/fonts/NotoSerifTelugu-Regular.ttf", 21, codepointsNoDups, codepointsNoDupsCount);
+  tel = LoadFontEx("res/fonts/NotoSerifTelugu-Regular.ttf", 47, codepointsNoDups, codepointsNoDupsCount);
 
 
     // Get codepoints from text
   codepointCount = 0;
-  codepoints = LoadCodepoints(hinText, &codepointCount);
+  codepoints = LoadCodepoints(engText, &codepointCount);
 
   // Removed duplicate codepoints to generate smaller font atlas
   codepointsNoDupsCount = 0;
@@ -210,7 +210,34 @@ GlobalFonts::GlobalFonts()
 
   //currentLang = Lang::ENGLISH;
   currentLang = Lang::ENGLISH;
-  size = 30;
+  switch(currentLang)
+     {
+     case Lang::ENGLISH:
+       {
+	 size = 50;
+	 fontSize = 20;
+	 fontSpacing = 3;
+	 break;
+       }
+
+    case Lang::HINDI:
+      {
+	size = 100;
+	fontSize = 22;
+	fontSpacing = 0;
+	break;
+      }
+     case Lang::TELUGU:
+       {
+	 size = 100;
+	 fontSize = 22;
+	 fontSpacing = 0;
+	 break;
+       }
+
+       
+     }
+
 }
 
 

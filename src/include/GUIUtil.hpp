@@ -27,6 +27,8 @@ private:
   Font hi;
   Font eng;
   int size = 0;
+  int fontSize = 0;
+  int fontSpacing = 0;
   int currentLang;
   
   GlobalFonts();
@@ -58,6 +60,8 @@ public:
   Font getHindi() { return hi; }
   Font getEng() { return eng; }
   int getSize() { return size; }
+  int getFontSize() { return fontSize; }
+  int getFontSpacing() { return fontSpacing; }
 };
 
 
