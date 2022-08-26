@@ -131,7 +131,7 @@ int main(void)
 	    SetShaderValue(cameraFlarePP, sunRadiusLoc, radius, SHADER_UNIFORM_FLOAT);
 
       
-	    //ray = GetMouseRay(GetMousePosition(), cm.getCamera());
+	    ray = GetMouseRay(GetMousePosition(), cm.getCamera());
 	    // update celestial bodies
 
 	    if(IsKeyPressed(KEY_F3))
@@ -139,7 +139,7 @@ int main(void)
       
 	    for(std::vector<std::unique_ptr<Planet>>::iterator planet = planets.begin(); planet != planets.end(); planet++)
 	      {
-		//planet->get()->CheckPointer(ray);
+		planet->get()->CheckPointer(ray);
 		planet->get()->Update();
 		//if(planet->get()->getClicked())
 		//cm.setTarget(planet->get());

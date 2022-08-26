@@ -26,6 +26,7 @@ private:
   Font tel;
   Font hi;
   Font eng;
+  int size = 0;
   int currentLang;
   
   GlobalFonts();
@@ -56,6 +57,7 @@ public:
   Font getTelugu() { return tel; }
   Font getHindi() { return hi; }
   Font getEng() { return eng; }
+  int getSize() { return size; }
 };
 
 

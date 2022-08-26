@@ -210,6 +210,7 @@ GlobalFonts::GlobalFonts()
 
   //currentLang = Lang::ENGLISH;
   currentLang = Lang::ENGLISH;
+  size = 30;
 }
 
 

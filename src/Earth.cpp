@@ -1,3 +1,4 @@
+#include "GUIUtil.hpp"
 #include <Earth.hpp>
 #include <raylib.h>
 #include <rlgl.h>
@@ -42,7 +43,13 @@ Earth::Earth(Camera* camera)
     std::cerr << "[FILE IO] Successfully opened file: " << info_path << std::endl;
 
     info.getline(planetName, 256);
-    info.getline(planetInfo, 1024);
+
+
+    char planet_Info[1024];
+    info.getline(planet_Info, 1024);
+    planetInfo = Utility::WrapText(planet_Info, GlobalFonts::GlobalFontInstance().getSize());
+   
+
     info.getline(mass, 256);
     info.getline(volume, 256);
     info.getline(gravity, 256);
