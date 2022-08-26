@@ -8,10 +8,12 @@
 #include <cstdarg>
 #include <cstdlib>
 #include <cctype>
+#include <GUIUtil.hpp>
 
 
 const int LINE_LENGTH_SMALL = 34; // witdh of box/width of font = 250/7.0
 const int LINE_LENGTH_LARGE = 57;
+
 
 namespace Utility {
   
@@ -73,20 +75,22 @@ namespace Utility {
 
   inline void DrawTextBox(int x, int y, int width, int height, const char* format...)
   {
+    static GlobalFonts globalFonts = GlobalFonts::GlobalFontInstance();
+    
     DrawRectangle(x, y, width, height, BLACK);
     DrawRectangleLines(x, y, width, height, WHITE);
 
     va_list args;
     va_start(args, format);
   
-    char buf[1024];
+    char buf[2048];
     char* newbuf;
   
     vsprintf(buf, format, args);
 
     //newbuf = WrapText(buf, LINE_LENGTH_SMALL);
-    DrawText(buf, x+4, y+4, 13, WHITE);
-
+    DrawTextEx(globalFonts.returnCurrentFont(), buf, (Vector2) { x+4.0f, y+4.0f }, 20, 0, WHITE);
+    
     //free(newbuf);
   
     va_end(args);  

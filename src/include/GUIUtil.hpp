@@ -5,6 +5,49 @@
 #include <raylib.h>
 #include <string>
 
+
+static int *CodepointRemoveDuplicates(int*, int, int*);
+
+
+class GlobalFonts
+{
+private:
+  Font tel;
+  Font hi;
+  Font eng;
+  int currentLang;
+  
+  GlobalFonts();
+public:
+  int returnCurrentLang() { return currentLang; }
+  Font returnCurrentFont()
+  {
+    switch(currentLang)
+      {
+	case 0:
+	  return tel;
+	  break;
+
+      case 1:
+	return hi;
+	break;
+
+      case 2:
+	return eng;
+	break;
+	
+      }
+
+    return GetFontDefault();
+  }
+  
+  static GlobalFonts& GlobalFontInstance();
+  Font getTelugu() { return tel; }
+  Font getHindi() { return hi; }
+  Font getEng() { return eng; }
+};
+
+
 class RGuiControl
 {
 protected:

@@ -11,9 +11,12 @@ TODO -*- mode: org; -*-
 - Sun is drawn over planets (how to compute occlusion? Uniforms?)
 
 * TODO Translations
+** TODO Use a wrapper text box control from raygui to display the data, over the current solution
 - Telugu
 - Hindi
-- etc.
+- English
+** DONE Add hindi translations files
+** DONE Add a font class, for hindi, telugu, english, where to put em? Or where to pass them
 * TODO Clean up/Refactor some of that code. Reread the whole thing, and mark the changes required:
 - Not really happy with how a new shader needs to be created for each Planet instance. Make the member variable overloadable? So Earth won't be affected much. Make the shader/model a class? Go with a component architecture, like Unity? Hybrid architecture? Easier to do, and can let the class unload em
 - sunLight, make it an instance? But how to remove that colorLoc and ambientLoc parts?

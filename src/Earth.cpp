@@ -6,6 +6,7 @@
 #include <Orbit.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <raygui.hpp>
 
 Earth::Earth(Camera* camera)
 {
@@ -19,7 +20,8 @@ Earth::Earth(Camera* camera)
   shader = LoadShader("res/shaders/planet-default.vs", "res/shaders/earth.fs");
   shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
 
-  string info_path = "res/info/earth/earth.txt";
+  
+  string info_path = "res/info/earth/earth-hi";
   std::fstream info { info_path };
   if(!info) {
     std::cerr << "[FAILED IO] Failed to open file: " << info_path << std::endl;
@@ -27,9 +29,10 @@ Earth::Earth(Camera* camera)
     std::cerr << "[FILE IO] Successfully opened file: " << info_path << std::endl;
     info.getline(planetName, 256);
 
-    char planet_info[313];
-    info.getline(planet_info, 313);
+    char planet_info[1024];
+    info.getline(planet_info, 1024);
     planetInfo = Utility::WrapText(planet_info, LINE_LENGTH_SMALL);
+   
     
     info.getline(mass, 256);
     info.getline(volume, 256);
@@ -45,6 +48,7 @@ Earth::Earth(Camera* camera)
     info.getline(orbital_period, 256);
     info.getline(orbital_vel, 256);
     info.getline(mean_orbital_vel, 256);
+
     
   }
 
