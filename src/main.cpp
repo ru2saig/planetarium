@@ -73,27 +73,26 @@ int main(void)
 
   std::vector<std::unique_ptr<Planet>> planets;
 
-  planets.emplace_back(new Planet("res/models/mercury/mercuryBuilt.obj", "res/textures/mercury/mercury_albedo.png", "res/info/mercury/mercury", Vector3 { 1420.0, 0.0, 0.0}, 0.33f, 1420.0f));
-  planets.emplace_back(new Planet("res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", "res/info/venus/venus", Vector3 { 2200.0, 0.0, 0.0}, 0.94f, 3750.0f));
+  planets.emplace_back(new Planet("res/models/mercury/mercuryBuilt.obj", "res/textures/mercury/mercury_albedo.png", "res/info/mercury/mercury", Vector3 { 142.0*2.0, 0.0, 0.0}, 0.33f, 142.0f * 2.0));
+  planets.emplace_back(new Planet("res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", "res/info/venus/venus", Vector3 { 220.0 * 2.0, 0.0, 0.0}, 0.94f, 375.0f * 2.0));
   // Make an Earth class, for this
   //planets.emplace_back(new Planet("res/models/earth/earthBuilt.obj", "res/textures/earth/earth_albedo.png", "res/info/earth/earth", Vector3 {500.0f ,0.0, 0.0}, 1.0f, 600.0));
   planets.emplace_back(new Earth((cm.getCameraPtr())));
-  planets.emplace_back(new Planet( "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , "res/info/mars/mars", Vector3 { 6000.0, 0.0, 0.0}, 0.5f, 9000.0));
-  planets.emplace_back(new Planet("res/models/jupiter/jupiterBuilt.obj", "res/textures/jupiter/2k_jupiter.png", "res/info/jupiter/jupiter", Vector3 { 8000.0, 0.0,  0.0}, 11.0f, 71420.0f));
-  planets.emplace_back(new Planet("res/models/saturn/saturnBuilt.obj", "res/textures/saturn/2k_saturn.png", "res/info/saturn/saturn", Vector3 { 10000.0, 0.0, 0.0}, 9.0f, 176470.0f));
-  planets.emplace_back(new Planet("res/models/uranus/uranusBuilt.obj", "res/textures/uranus/2k_uranus.png", "res/info/uranus/uranus", Vector3 { 12000.0, 0.0, 0.0}, 4.0f, 500000.0f));
-  planets.emplace_back(new Planet("res/models/neptune/neptuneBuilt.obj", "res/textures/neptune/2k_neptune.png", "res/info/neptune/neptune", Vector3 { 13000.0, 0.0, 0.0}, 3.9f, 1000000.0f));
+  planets.emplace_back(new Planet( "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , "res/info/mars/mars", Vector3 { 600.0 * 2.0, 0.0, 0.0}, 0.5f, 900.0 * 2.0));
+  planets.emplace_back(new Planet("res/models/jupiter/jupiterBuilt.obj", "res/textures/jupiter/2k_jupiter.png", "res/info/jupiter/jupiter", Vector3 { 800.0 * 2.0, 0.0,  0.0}, 11.0f, 7142.0f * 2.0f));
+  planets.emplace_back(new Planet("res/models/saturn/saturnBuilt.obj", "res/textures/saturn/2k_saturn.png", "res/info/saturn/saturn", Vector3 { 1000.0 * 2.0f, 0.0, 0.0}, 9.0f, 17647.0f * 2.0f));
+  planets.emplace_back(new Planet("res/models/uranus/uranusBuilt.obj", "res/textures/uranus/2k_uranus.png", "res/info/uranus/uranus", Vector3 { 1200.0 * 2.0f, 0.0, 0.0}, 4.0f, 50000.0f * 2.0f));
+  planets.emplace_back(new Planet("res/models/neptune/neptuneBuilt.obj", "res/textures/neptune/2k_neptune.png", "res/info/neptune/neptune", Vector3 { 1300.0 * 2.0f, 0.0, 0.0}, 3.9f, 100000.0f * 2.0f));
 
+
+  // navigation and layout
+  planetNavigationList planetNav = planetNavigationList();
+  
   // sun
   Sun sun { "res/models/sun/sunBuilt.obj", "res/textures/sun/2k_sun.png" }; // the sun is at the centre of the Unierse. Galieo rollin' in his grave
 
   bool debugMenu = false;
 
-
-  // setup layout stuff
-  planetNavigationList nav = planetNavigationList();
-  
-  
   SetTargetFPS(60);               // target 60 fps
 
   planetariumState = State::START;
@@ -140,22 +139,22 @@ int main(void)
       
 	    for(std::vector<std::unique_ptr<Planet>>::iterator planet = planets.begin(); planet != planets.end(); planet++)
 	      {
-		//  planet->get()->CheckPointer(ray);
+		//planet->get()->CheckPointer(ray);
 		planet->get()->Update();
 		//if(planet->get()->getClicked())
-		//  cm.setTarget(planet->get());
+		//cm.setTarget(planet->get());
 	      }
-      
 
-	    if(nav.changedOption())
+	    if(planetNav.changedOption())
 	      {
-		if(nav.getOption())
-		  cm.setTarget(planets[nav.getOption() - 1].get());
+		if(planetNav.getOption())
+		  cm.setTarget(planets[planetNav.getOption() - 1].get());
 	      }
+
 	    
 	    if(IsKeyPressed(KEY_Q))
 	      {
-		nav.setFreeRoam();
+		planetNav.setFreeRoam();
 		cm.unsetTarget();
 	      }
       
@@ -200,8 +199,8 @@ int main(void)
 	    for(auto& planet: planets)
 		planet->DisplayInfo();
 
-	    // draw the layouts
-	    nav.DrawControl();
+
+	    planetNav.DrawControl();
 
             
 	    EndDrawing();

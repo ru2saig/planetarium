@@ -209,7 +209,7 @@ GlobalFonts::GlobalFonts()
 
 
   //currentLang = Lang::ENGLISH;
-  currentLang = Lang::HINDI;
+  currentLang = Lang::ENGLISH;
 }
 
 

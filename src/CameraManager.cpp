@@ -14,14 +14,6 @@ using namespace VMath;
 
 void CameraManager::Update()//Camera *camera)
 {
-  static Vector2 lastMousePos = { 0.0f, 0.0f };
-  static bool firstMouse = true;
-  static float yaw = 0.0f;
-  static float pitch = 0.0f;
-  static Vector3 cameraFront = Vector3{ 0.0f, 0.0f, -1.0f };
-    
-  const float cameraSpeed = 1.0f; 
-     
   
   if(target) // follow target
     {
@@ -29,64 +21,8 @@ void CameraManager::Update()//Camera *camera)
       cameraPtr->target = target->getPosition();
       cameraPtr->position = target->getPosition() + (Vector3) {r*2, r*2, r*2};
     }
-  else 
-    {      
-      
-      if(IsKeyDown(KEY_W))
-	// TODO: Make an overloaded version of operator+=
-	cameraPtr->position = cameraPtr->position + cameraSpeed * cameraFront;
-      if(IsKeyDown(KEY_S))
-	cameraPtr->position = cameraPtr->position - cameraSpeed * cameraFront;
-      if(IsKeyDown(KEY_A))
-       	cameraPtr->position = cameraPtr->position - Vector3Normalize(Vector3CrossProduct(cameraFront, cameraPtr->up));
-      if(IsKeyDown(KEY_D))
-	cameraPtr->position = cameraPtr->position + Vector3Normalize(Vector3CrossProduct(cameraFront, cameraPtr->up));
 
-
-
-      if(IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT)) {
-	// targeting in here?
-
-	DisableCursor();
-	Vector2 currentMousePos = GetMousePosition();
-	
-	if(firstMouse)
-	  {
-	    lastMousePos = currentMousePos;
-	    firstMouse = false;
-	  }
-
-	float xoffset = currentMousePos.x - lastMousePos.x;
-	float yoffset = lastMousePos.y - currentMousePos.y;
-
-	lastMousePos = currentMousePos;
-
-	float sensitivity = 0.1f;
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-
-	yaw += xoffset;
-	pitch += yoffset;
-
-
-	pitch = std::min(89.0f, std::max(pitch, -89.0f));
-
-	Vector3 direction = {
-	  cos(DEG2RAD * yaw) * cos(DEG2RAD * pitch),
-	  sin(DEG2RAD * pitch),
-	  sin(DEG2RAD * yaw) * cos(DEG2RAD * pitch) };
-
-        cameraFront = Vector3Normalize(direction);
-      
-      } else { //
-	EnableCursor();
-	lastMousePos = GetMousePosition();
-      }
-
-      
-      
-      cameraPtr->target = cameraPtr->position + cameraFront;
-    }
+  UpdateCamera(cameraPtr);
 }
 
 
@@ -96,6 +32,8 @@ void CameraManager::resetCamera()
   Vector3 target = cameraPtr->target;
   Vector3 up = cameraPtr->up;
   delete cameraPtr;
+
+  SetCameraMode(this->getCamera(), CAMERA_FREE);
 
   cameraPtr = new Camera { 0 };
   cameraPtr->position = pos;
@@ -109,6 +47,7 @@ void CameraManager::resetCamera()
 void CameraManager::setTarget(CelestialBody* body)
 {
   resetCamera();
+  SetCameraMode(this->getCamera(), CAMERA_CUSTOM);
   
   // TODO: interpolate towards this
   float radius = body->getRadius();
@@ -132,6 +71,7 @@ void CameraManager::unsetTarget()
   if(this->target) {
     resetCamera();
 
+    SetCameraMode(this->getCamera(), CAMERA_FREE);
     this->target->clickedFalse();
     this->target = nullptr;
   }
@@ -148,7 +88,7 @@ CameraManager::CameraManager()
   cameraPtr->fovy = 45.0f;                                
   cameraPtr->projection = CAMERA_PERSPECTIVE;
   
-  SetCameraMode(*cameraPtr, CAMERA_CUSTOM);
+  SetCameraMode(*cameraPtr, CAMERA_FREE);
 }
 
 CameraManager::~CameraManager()

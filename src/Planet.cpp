@@ -173,25 +173,25 @@ void Planet::CheckPointer(Ray mouse)
 // display info in a panel near the planet
 void Planet::DisplayInfo() 
 {
-  // if(planetEntered.hit && !clicked)
-  //   { // only display general info if planet is not clicked
+  if(planetEntered.hit && !clicked)
+     { // only display general info if planet is not clicked
   //     // TODO: for the information, add a way that auto-formats text, like a text box class
-  if(clicked) {
-
-    //GuiSetFont(GlobalFonts::GlobalFontInstance().returnCurrentFont());
-     DrawTextBoxed(GlobalFonts::GlobalFontInstance().returnCurrentFont(), planetInfo, Rectangle { GetScreenWidth() - 250.0f, 0, 250, 500}, 30, 0, true, WHITE);
-    //RGuiTextBoxMulti(0, GetScreenWidth() - 250, 0, 250, GetScreenHeight()/2.0, TextFormat("%s\n%s\n", planetName, planetInfo)).DrawControl();
-    
-
-  //   }
-  // else if(clicked)
-  //   { // display a lot of info
 
 
+       //GuiSetFont(GlobalFonts::GlobalFontInstance().returnCurrentFont());
+       //DrawTextBoxed(GlobalFonts::GlobalFontInstance().returnCurrentFont(), planet_info, Rectangle { GetScreenWidth() - 250.0f, 0, 250, 500}, 30, 0, true, WHITE);
+       // RGuiTextBoxMulti(0, GetScreenWidth() - 250, 0, 250, GetScreenHeight()/2.0, TextFormat("%s\n%s\n", planetName, planetInfo)).DrawControl();
+       //Utility::DrawTextBox(GetScreenWidth() - 500, 0, 250, 400, "%s\n%s\n", planetName, planetInfo);
 
-      //      Utility::DrawTextBox(GetScreenWidth() - 500, 0, 250, 400, "Mass: %s 10^24kg\nVolume: %s 10^10 km^3\nGravity: %s m/s^2\nEscape Velocity: %s km/s\nNatural Satellites: %s\nMoment of Inertia: %s I/MR^2\nDiameter: %s km\nPerihelion: %s 10^6 km\nAphelion: %s 10^6 km\nLength of Day: %s hr(s)\nAverage Temperature: %s C\nOrbital Period: %s days\nOrbital Velocity: %s km/s\nMean Orbital Velocity: %s km/s\n" , mass, volume, gravity, escape_velocity, no_of_natural_satellites, moment_of_inertia, diamteter, perihelion, aphelion, length_of_day, avg_temp, orbital_period, orbital_vel, mean_orbital_vel);
+     }
+  else if(clicked)
+    { // display a lot of info
+      
 
-  }
+
+      //Utility::DrawTextBox(GetScreenWidth() - 500, 0, 250, 400, "Mass: %s 10^24kg\nVolume: %s 10^10 km^3\nGravity: %s m/s^2\nEscape Velocity: %s km/s\nNatural Satellites: %s\nMoment of Inertia: %s I/MR^2\nDiameter: %s km\nPerihelion: %s 10^6 km\nAphelion: %s 10^6 km\nLength of Day: %s hr(s)\nAverage Temperature: %s C\nOrbital Period: %s days\nOrbital Velocity: %s km/s\nMean Orbital Velocity: %s km/s\n" , mass, volume, gravity, escape_velocity, no_of_natural_satellites, moment_of_inertia, diamteter, perihelion, aphelion, length_of_day, avg_temp, orbital_period, orbital_vel, mean_orbital_vel);
+      
+    }
       // DrawRectangle(0, 0, 250, 400, BLACK); // TODO: add a little transparency, and make it gray
       // DrawRectangleLines(0, 0, 250, 400, WHITE);
 
