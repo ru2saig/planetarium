@@ -34,6 +34,9 @@ int main(void)
 
   State planetariumState = State::LOADING;
   GlobalFonts::GlobalFontInstance();
+
+  InitAudioDevice();
+  
   
   GuiLoadStyle("res/default.rgs");
 
@@ -229,7 +232,8 @@ int main(void)
 
   UnloadShader(cameraFlarePP);
   UnloadTexture(noiseTexture);
-
+  CloseAudioDevice();
+  
   
   return 0;
 }

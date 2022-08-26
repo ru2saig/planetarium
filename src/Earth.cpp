@@ -22,6 +22,8 @@ Earth::Earth(Camera* camera)
   shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
 
   std::string info_path = "res/info/earth/earth";
+  narration = LoadSound("res/audio/narration/Earth.wav");
+
   
   switch(GlobalFonts::GlobalFontInstance().returnCurrentLang())
     {

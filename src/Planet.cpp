@@ -17,9 +17,10 @@ bool Planet::showHitBox = false;
 
 
 
-Planet::Planet(string model_path, string texture_path, std::string info_path, Vector3 pos,
+Planet::Planet(pstring model_path, pstring texture_path, std::string info_path, Vector3 pos,
                float radius, float orbitPeriod)
 {
+
   GlobalFonts gb = GlobalFonts::GlobalFontInstance();
   
   this->radius = radius * Planet::BASE_PLANET_RADIUS;
@@ -53,7 +54,11 @@ Planet::Planet(string model_path, string texture_path, std::string info_path, Ve
     std::cerr << "[FILE IO] Successfully opened file: " << info_path << std::endl;
     info.getline(planetName, 256);
 
+    std::string planetSound = planetName;
+    planetSound = "res/audio/narraion" + planetSound + ".wav";
 
+    narration = LoadSound(planetSound.c_str());
+    
     char planet_Info[1024];
     info.getline(planet_Info, 1024);
     planetInfo = Utility::WrapText(planet_Info, GlobalFonts::GlobalFontInstance().getSize());
@@ -112,6 +117,7 @@ Planet::~Planet()
 {  
   UnloadModel(model);
   UnloadShader(shader);
+  UnloadSound(narration);
 }
 
 void Planet::Draw()
@@ -189,15 +195,15 @@ void Planet::DisplayInfo()
        //DrawTextBoxed(GlobalFonts::GlobalFontInstance().returnCurrentFont(), planetInfo , Rectangle { GetScreenWidth() - 250.0f, 0, 250, 500}, 30, 0, true, WHITE);
   //      // RGuiTextBoxMulti(0, GetScreenWidth() - 250, 0, 250, GetScreenHeight()/2.0, TextFormat("%s\n%s\n", planetName, planetInfo)).DrawControl();
        Utility::DrawTextBox(GetScreenWidth() - 400, 0, 400, 400, "%s\n%s\n", planetName, planetInfo);
+       PlaySound(narration); // wrong place, why here tho?
 
       }
   else if(clicked)
     { // display a lot of info
       std::cerr << "[PLAYING EXTRA INFO FOR ]: " << this <<  std::endl; 
 
-
       Utility::DrawTextBox(GetScreenWidth() - 400, 0, 400, 500, "Mass: %s 10^24kg\nVolume: %s 10^10 km^3\nGravity: %s m/s^2\nEscape Velocity: %s km/s\nNatural Satellites: %s\nMoment of Inertia: %s I/MR^2\nDiameter: %s km\nPerihelion: %s 10^6 km\nAphelion: %s 10^6 km\nLength of Day: %s hr(s)\nAverage Temperature: %s C\nOrbital Period: %s days\nOrbital Velocity: %s km/s\nMean Orbital Velocity: %s km/s\n" , mass, volume, gravity, escape_velocity, no_of_natural_satellites, moment_of_inertia, diamteter, perihelion, aphelion, length_of_day, avg_temp, orbital_period, orbital_vel, mean_orbital_vel);
-      
+
     }
       // DrawRectangle(0, 0, 250, 400, BLACK); // TODO: add a little transparency, and make it gray
       // DrawRectangleLines(0, 0, 250, 400, WHITE);

@@ -4,7 +4,7 @@
 #include <CelestialBody.hpp>
 #include <Utility.hpp>
 typedef char cstring[256]; // TODO: make the information thing more optimized for space
-typedef const char* string;
+typedef const char* pstring;
 
 #define FLT_MAX     340282346638528859811704183484516925440.0f     // Maximum value of a float, from bit pattern 01111111011111111111111111111111
 
@@ -13,7 +13,7 @@ class Planet : public CelestialBody
 {
 public:
   Planet() = default;
-  Planet(string, string, std::string, Vector3, float, float);
+  Planet(pstring, pstring, std::string, Vector3, float, float);
   virtual ~Planet();
   
   void Draw() override;
@@ -35,6 +35,7 @@ protected:
 
   Model model;
   Shader shader;
+  Sound narration;
   
   Orbit orbit;
   RayCollision planetEntered; // when pointer enters box

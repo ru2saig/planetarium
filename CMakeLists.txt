@@ -34,7 +34,7 @@ target_link_libraries(${PROJECT_NAME} raylib)
 # set the include path to be included in the build command
 
 # TODO: see this! https://stackoverflow.com/a/54285898, or something like https://github.com/raysan5/raylib/blob/master/examples/CMakeLists.txt
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/include) 
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/include)
 
 # Checks if OSX and links appropriate frameworks (Only required on MacOS)
 if (APPLE)
