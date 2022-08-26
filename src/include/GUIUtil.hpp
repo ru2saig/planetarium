@@ -7,6 +7,17 @@
 
 
 static int *CodepointRemoveDuplicates(int*, int, int*);
+void DrawTextBoxed(Font font, const char *text, Rectangle rec, float fontSize, float spacing, bool wordWrap, Color tint);   // Draw text using font inside rectangle limits
+void DrawTextBoxedSelectable(Font font, const char *text, Rectangle rec, float fontSize, float spacing, bool wordWrap, Color tint, int selectStart, int selectLength, Color selectTint, Color selectBackTint);    // Draw text using font inside rectangle limits with support for text selection
+
+
+enum Lang
+{
+  ENGLISH = 0,
+  TELUGU,
+  HINDI,
+  MARATHI,
+};
 
 
 class GlobalFonts
@@ -24,16 +35,16 @@ public:
   {
     switch(currentLang)
       {
-	case 0:
+      case Lang::TELUGU:
 	  return tel;
 	  break;
 
-      case 1:
-	return hi;
+      case Lang::ENGLISH:
+	return eng;
 	break;
 
-      case 2:
-	return eng;
+      case Lang::HINDI:
+	return hi;
 	break;
 	
       }
@@ -63,6 +74,38 @@ public:
 
   virtual void DrawControl() = 0;
 };
+
+
+class RGuiTextBoxMulti : public RGuiControl
+{
+private:
+  bool editMode;
+  char* mText;
+
+public:
+  RGuiTextBoxMulti(int id_, float x, float y, float width, float height, std::string _text)
+    : RGuiControl(id_, x, y, width, height, _text),
+      editMode { false }
+  {
+    mText = (char*) malloc(sizeof(char) * text.size());
+    
+    for(int i = 0; i < text.size(); i++)
+        mText[i] = text[i];
+  }
+
+  void DrawControl() override
+  {
+    if (GuiTextBoxMulti(bounds, mText, text.size(), editMode))
+      editMode = !editMode;
+  }
+
+  ~RGuiTextBoxMulti()
+  {
+    free(mText);
+  }
+
+};
+
 
 
 class RGuiListView : public RGuiControl

@@ -12,9 +12,7 @@ TODO -*- mode: org; -*-
 
 * TODO Translations
 ** TODO Use a wrapper text box control from raygui to display the data, over the current solution
-- Telugu
-- Hindi
-- English
+** TODO Setup the start menu, so user can select the language!
 ** DONE Add hindi translations files
 ** DONE Add a font class, for hindi, telugu, english, where to put em? Or where to pass them
 * TODO Clean up/Refactor some of that code. Reread the whole thing, and mark the changes required:

@@ -73,16 +73,16 @@ int main(void)
 
   std::vector<std::unique_ptr<Planet>> planets;
 
-  planets.emplace_back(new Planet("res/models/mercury/mercuryBuilt.obj", "res/textures/mercury/mercury_albedo.png", "res/info/mercury/mercury.txt", Vector3 { 1420.0, 0.0, 0.0}, 0.33f, 1420.0f));
-  planets.emplace_back(new Planet("res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", "res/info/venus/venus.txt", Vector3 { 2200.0, 0.0, 0.0}, 0.94f, 3750.0f));
+  planets.emplace_back(new Planet("res/models/mercury/mercuryBuilt.obj", "res/textures/mercury/mercury_albedo.png", "res/info/mercury/mercury", Vector3 { 1420.0, 0.0, 0.0}, 0.33f, 1420.0f));
+  planets.emplace_back(new Planet("res/models/venus/venusBuilt.obj", "res/textures/venus/2k_venus_atmosphere.png", "res/info/venus/venus", Vector3 { 2200.0, 0.0, 0.0}, 0.94f, 3750.0f));
   // Make an Earth class, for this
-  //planets.emplace_back(new Planet("res/models/earth/earthBuilt.obj", "res/textures/earth/earth_albedo.png", "res/info/earth/earth.txt", Vector3 {500.0f ,0.0, 0.0}, 1.0f, 600.0));
+  //planets.emplace_back(new Planet("res/models/earth/earthBuilt.obj", "res/textures/earth/earth_albedo.png", "res/info/earth/earth", Vector3 {500.0f ,0.0, 0.0}, 1.0f, 600.0));
   planets.emplace_back(new Earth((cm.getCameraPtr())));
-  planets.emplace_back(new Planet( "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , "res/info/mars/mars.txt", Vector3 { 6000.0, 0.0, 0.0}, 0.5f, 9000.0));
-  planets.emplace_back(new Planet("res/models/jupiter/jupiterBuilt.obj", "res/textures/jupiter/2k_jupiter.png", "res/info/jupiter/jupiter.txt", Vector3 { 8000.0, 0.0,  0.0}, 11.0f, 71420.0f));
-  planets.emplace_back(new Planet("res/models/saturn/saturnBuilt.obj", "res/textures/saturn/2k_saturn.png", "res/info/saturn/saturn.txt", Vector3 { 10000.0, 0.0, 0.0}, 9.0f, 176470.0f));
-  planets.emplace_back(new Planet("res/models/uranus/uranusBuilt.obj", "res/textures/uranus/2k_uranus.png", "res/info/uranus/uranus.txt", Vector3 { 12000.0, 0.0, 0.0}, 4.0f, 500000.0f));
-  planets.emplace_back(new Planet("res/models/neptune/neptuneBuilt.obj", "res/textures/neptune/2k_neptune.png", "res/info/neptune/neptune.txt", Vector3 { 13000.0, 0.0, 0.0}, 3.9f, 1000000.0f));
+  planets.emplace_back(new Planet( "res/models/mars/marsBuilt.obj", "res/textures/mars/mars.png" , "res/info/mars/mars", Vector3 { 6000.0, 0.0, 0.0}, 0.5f, 9000.0));
+  planets.emplace_back(new Planet("res/models/jupiter/jupiterBuilt.obj", "res/textures/jupiter/2k_jupiter.png", "res/info/jupiter/jupiter", Vector3 { 8000.0, 0.0,  0.0}, 11.0f, 71420.0f));
+  planets.emplace_back(new Planet("res/models/saturn/saturnBuilt.obj", "res/textures/saturn/2k_saturn.png", "res/info/saturn/saturn", Vector3 { 10000.0, 0.0, 0.0}, 9.0f, 176470.0f));
+  planets.emplace_back(new Planet("res/models/uranus/uranusBuilt.obj", "res/textures/uranus/2k_uranus.png", "res/info/uranus/uranus", Vector3 { 12000.0, 0.0, 0.0}, 4.0f, 500000.0f));
+  planets.emplace_back(new Planet("res/models/neptune/neptuneBuilt.obj", "res/textures/neptune/2k_neptune.png", "res/info/neptune/neptune", Vector3 { 13000.0, 0.0, 0.0}, 3.9f, 1000000.0f));
 
   // sun
   Sun sun { "res/models/sun/sunBuilt.obj", "res/textures/sun/2k_sun.png" }; // the sun is at the centre of the Unierse. Galieo rollin' in his grave

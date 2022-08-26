@@ -24,6 +24,7 @@ public:
 
   void DrawControl()
   {
+    GuiSetFont(GetFontDefault());
     currentPlanetActive = GuiListView(bounds, text.c_str(), &currentPlanet, currentPlanetActive);
 
     if(currentPlanetActive == oldPlanetActive)

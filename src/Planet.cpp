@@ -1,10 +1,13 @@
+#include "raygui.hpp"
 #include <raylib.h>
 #include <Utility.hpp>
+#include <GUIUtil.hpp>
 #include <Orbit.hpp>
 #include <Planet.hpp>
 #include <PVector3.hpp>
 #include <fstream>
 #include <cstdlib>
+#include <string>
 #include <iostream>
 using namespace VMath;
 
@@ -14,7 +17,7 @@ bool Planet::showHitBox = false;
 
 
 
-Planet::Planet(string model_path, string texture_path, string info_path, Vector3 pos,
+Planet::Planet(string model_path, string texture_path, std::string info_path, Vector3 pos,
                float radius, float orbitPeriod)
 {
   this->radius = radius * Planet::BASE_PLANET_RADIUS;
@@ -22,6 +25,24 @@ Planet::Planet(string model_path, string texture_path, string info_path, Vector3
   this->pos = pos;
   // TODO: why should this work? why is it not? (without the center argumetn)
   this->orbit = Orbit(this->pos.x, orbitPeriod, Vector3 { 0.0f, 0.0f, 0.0f });
+
+  // TODO: Add the suffix, depending on the currently selectd language
+  switch(GlobalFonts::GlobalFontInstance().returnCurrentLang())
+    {
+    case Lang::ENGLISH:
+      info_path += "-en";
+      break;
+    case Lang::HINDI:
+      info_path += "-hi";
+      break;
+    case Lang::TELUGU:
+      info_path += "-te";
+      break;
+    case Lang::MARATHI:
+      info_path += "-ma";
+      break;
+    }
+
   
   std::fstream info { info_path };
   if(!info) {
@@ -30,9 +51,8 @@ Planet::Planet(string model_path, string texture_path, string info_path, Vector3
     std::cerr << "[FILE IO] Successfully opened file: " << info_path << std::endl;
     info.getline(planetName, 256);
 
-    char planet_info[313];
-    info.getline(planet_info, 313);
-    planetInfo = Utility::WrapText(planet_info, LINE_LENGTH_SMALL);
+
+    info.getline(planetInfo, 1024);
     
     info.getline(mass, 256);
     info.getline(volume, 256);
@@ -79,16 +99,11 @@ Planet::Planet(string model_path, string texture_path, string info_path, Vector3
   model.materials[0].shader = shader;
   // load and set the textures
   model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = LoadTexture(texture_path);
-
-  
   
 }
 
 Planet::~Planet()
-{
-  free(planetInfo);
-
-  
+{  
   UnloadModel(model);
   UnloadShader(shader);
 }
@@ -156,14 +171,17 @@ void Planet::CheckPointer(Ray mouse)
 }
 
 // display info in a panel near the planet
-void Planet::DisplayInfo() // TODO: Use RAGUI's controls for this stuff!
+void Planet::DisplayInfo() 
 {
   // if(planetEntered.hit && !clicked)
   //   { // only display general info if planet is not clicked
   //     // TODO: for the information, add a way that auto-formats text, like a text box class
   if(clicked) {
+
+    //GuiSetFont(GlobalFonts::GlobalFontInstance().returnCurrentFont());
+     DrawTextBoxed(GlobalFonts::GlobalFontInstance().returnCurrentFont(), planetInfo, Rectangle { GetScreenWidth() - 250.0f, 0, 250, 500}, 30, 0, true, WHITE);
+    //RGuiTextBoxMulti(0, GetScreenWidth() - 250, 0, 250, GetScreenHeight()/2.0, TextFormat("%s\n%s\n", planetName, planetInfo)).DrawControl();
     
-    //Utility::DrawTextBox(GetScreenWidth() - 250, 0, 250, 250, "%s\n%s\n%s\n", planetName, planetInfo, mass);      
 
   //   }
   // else if(clicked)

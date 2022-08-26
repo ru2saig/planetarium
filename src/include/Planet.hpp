@@ -13,7 +13,7 @@ class Planet : public CelestialBody
 {
 public:
   Planet() = default;
-  Planet(string, string, string, Vector3, float, float);
+  Planet(string, string, std::string, Vector3, float, float);
   virtual ~Planet();
   
   void Draw() override;
@@ -41,7 +41,7 @@ protected:
 
   // general info
   cstring planetName;
-  char* planetInfo;
+  char planetInfo[1024];
   
   // detailed info
   cstring mass; // 10^24 kg

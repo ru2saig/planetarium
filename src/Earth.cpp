@@ -20,20 +20,29 @@ Earth::Earth(Camera* camera)
   shader = LoadShader("res/shaders/planet-default.vs", "res/shaders/earth.fs");
   shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
 
+  std::string info_path = "res/info/earth/earth";
   
-  string info_path = "res/info/earth/earth-hi";
+  switch(GlobalFonts::GlobalFontInstance().returnCurrentLang())
+    {
+    case Lang::ENGLISH:
+      info_path += "-en";
+      break;
+    case Lang::HINDI:
+      info_path += "-hi";
+      break;
+    case Lang::TELUGU:
+      info_path += "-te";
+      break;
+    }
+  
   std::fstream info { info_path };
   if(!info) {
     std::cerr << "[FAILED IO] Failed to open file: " << info_path << std::endl;
   } else {
     std::cerr << "[FILE IO] Successfully opened file: " << info_path << std::endl;
-    info.getline(planetName, 256);
 
-    char planet_info[1024];
-    info.getline(planet_info, 1024);
-    planetInfo = Utility::WrapText(planet_info, LINE_LENGTH_SMALL);
-   
-    
+    info.getline(planetName, 256);
+    info.getline(planetInfo, 1024);
     info.getline(mass, 256);
     info.getline(volume, 256);
     info.getline(gravity, 256);
