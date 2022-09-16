@@ -19,7 +19,7 @@ void CameraManager::Update()//Camera *camera)
     {
       float r = target->getRadius();
       cameraPtr->target = target->getPosition();
-      cameraPtr->position = target->getPosition() + (Vector3) {r*2, r*2, r*2};
+      cameraPtr->position = target->getPosition() + (Vector3) {100, 100, 100};
     }
 
   UpdateCamera(cameraPtr);

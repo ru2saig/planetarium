@@ -1,4 +1,5 @@
 #include "raygui.hpp"
+#include <raymath.h>
 #include <raylib.h>
 #include <Utility.hpp>
 #include <GUIUtil.hpp>
@@ -134,6 +135,7 @@ void Planet::Draw()
 
 void Planet::Update(Camera* camera) 
 {
+  static float rot = 0.0f;
 
   float cameraPos[3] { camera->position.x, camera->position.y, camera->position.z };
   SetShaderValue(shader,  GetShaderLocation(shader, "viewPos"), cameraPos, SHADER_UNIFORM_VEC3);
@@ -145,6 +147,9 @@ void Planet::Update(Camera* camera)
   // do physics here
   // what physics?
   // rotation on axis (how?) model.transform <- MatrixRotateXYZ((Vector3){  });
+
+  
+  rot += 0.1;
   // rotation around the sun (how?)
   // pos = pos + (Vector3) {0.1f, 0.0f, 0.0f};
 }
@@ -153,10 +158,14 @@ void Planet::Update(Camera* camera)
 
 void Planet::Update() 
 {
+  static float rot = 0.0f;
   pos = orbit.Evaluate();
   orbit.Update();
   // TODO: is it possible to get the radius of the sphere from mesh data?
-  
+
+  model.transform = MatrixRotateXYZ((Vector3) { 0.0f, rot, 0.0f});
+  rot += 0.005;
+
   // do physics here
   // what physics?
   // rotation on axis (how?) model.transform <- MatrixRotateXYZ((Vector3){  });
